@@ -215,12 +215,12 @@ const BedLayout = ({ wards, onSelect }) => {
                 whileTap={bed.status === "available" ? { scale: 0.95 } : {}}
                 onClick={() => bed.status === "available" && onSelect(bed)}
                 className={`aspect-square rounded-xl flex items-center justify-center text-[10px] font-black transition-all border-2 ${bed.status === "occupied"
-                    ? "bg-slate-50 border-slate-100 text-slate-200 cursor-not-allowed"
-                    : bed.type === "ICU"
-                      ? "bg-emerald-50 border-emerald-100 text-emerald-900"
-                      : bed.type === "VIP"
-                        ? "bg-orange-50 border-orange-100 text-orange-600"
-                        : "bg-white border-slate-100 text-emerald-900 cursor-pointer hover:border-emerald-200"
+                  ? "bg-slate-50 border-slate-100 text-slate-200 cursor-not-allowed"
+                  : bed.type === "ICU"
+                    ? "bg-emerald-50 border-emerald-100 text-emerald-900"
+                    : bed.type === "VIP"
+                      ? "bg-orange-50 border-orange-100 text-orange-600"
+                      : "bg-white border-slate-100 text-emerald-900 cursor-pointer hover:border-emerald-200"
                   }`}
               >
                 {bed.id.split("-")[1]}
@@ -236,42 +236,126 @@ const BedLayout = ({ wards, onSelect }) => {
 // --- Main Pages ---
 
 const Landing = () => (
-  <div className="min-h-[calc(100vh-80px)] bg-white flex flex-col justify-center items-center px-6 relative overflow-hidden text-center">
+  <div className="min-h-[calc(100vh-80px)] bg-white relative overflow-hidden">
     {/* Background Decorative Elements */}
-    <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#b8e2b0]/20 blur-[120px] rounded-full -z-10" />
-    <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-50 blur-[100px] rounded-full -z-10" />
+    <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#b8e2b0]/15 blur-[150px] rounded-full -z-10" />
+    <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-emerald-50/50 blur-[120px] rounded-full -z-10" />
 
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="bg-emerald-50 text-emerald-900 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-10 border border-emerald-100 shadow-sm"
-    >
-      Professional Hospital Bed Network
-    </motion.div>
+    <div className="max-w-7xl mx-auto px-6 pt-20 pb-32">
+      <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+        {/* Left Side: Content */}
+        <div className="flex-1 text-center lg:text-left">
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="bg-emerald-50 text-emerald-900 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 w-fit mx-auto lg:mx-0 border border-emerald-100 shadow-sm"
+          >
+            Digital Healthcare Infrastructure
+          </motion.div>
 
-    <h1 className="text-5xl md:text-8xl font-black text-slate-900 leading-[1] mb-10 tracking-tight">
-      Heal Better, <br />
-      <span className="text-[#b8e2b0] italic">Register Faster.</span>
-    </h1>
+          <h1 className="text-5xl md:text-7xl xl:text-8xl font-black text-slate-900 leading-[1.05] mb-8 tracking-tighter">
+            Heal Better, <br />
+            <span className="text-[#b8e2b0] italic">Register Faster.</span>
+          </h1>
 
-    <p className="max-w-xl text-slate-500 font-bold text-lg mb-14 leading-relaxed tracking-tight">
-      Check real-time bed inventory, ICU availability and OPD status with
-      absolute transparency. Developed for patient care and hospital efficiency.
-    </p>
+          <p className="max-w-xl text-slate-500 font-bold text-lg mb-12 leading-relaxed tracking-tight mx-auto lg:mx-0">
+            India's most advanced hospital bed inventory network. Check live ICU
+            availability and secure admissions with 100% transparency.
+          </p>
 
-    <div className="flex flex-col sm:flex-row gap-6">
-      <Link
-        to="/auth?role=patient"
-        className="px-12 py-5 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black text-lg shadow-xl shadow-[#b8e2b0]/20 hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 group"
-      >
-        Book My Bed <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-      </Link>
-      <Link
-        to="/auth?role=hospital"
-        className="px-12 py-5 bg-white text-slate-900 border-2 border-slate-100 rounded-2xl font-black text-lg hover:border-[#b8e2b0] hover:bg-[#b8e2b0]/5 transition-all transform hover:-translate-y-1"
-      >
-        Partnership Portal
-      </Link>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+            <Link
+              to="/auth?role=patient"
+              className="px-10 py-5 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black text-lg shadow-xl shadow-primary/20 hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 group"
+            >
+              Check Availability <ArrowRight className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+            <Link
+              to="/auth?role=hospital"
+              className="px-10 py-5 bg-white text-slate-900 border-2 border-slate-100 rounded-2xl font-black text-lg hover:border-primary hover:bg-primary/5 transition-all transform hover:-translate-y-1"
+            >
+              Partner Portal
+            </Link>
+          </div>
+
+          <div className="mt-16 flex flex-wrap gap-8 justify-center lg:justify-start items-center">
+            <div className="flex -space-x-3">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-100">
+                  <img src={`https://i.pravatar.cc/100?u=${i}`} className="w-full h-full rounded-full" />
+                </div>
+              ))}
+            </div>
+            <p className="text-sm font-bold text-slate-400">
+              Trusted by <span className="text-slate-900 font-black">24,000+</span> patients monthly
+            </p>
+          </div>
+        </div>
+
+        {/* Right Side: Visual Image */}
+        <div className="flex-1 w-full max-w-2xl">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 30 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="relative"
+          >
+            {/* Main Image */}
+            <div className="rounded-[48px] overflow-hidden shadow-2xl border-8 border-white group">
+              <img
+                src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200"
+                className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-1000"
+                alt="Modern Hospital Interior"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/40 via-transparent to-transparent" />
+            </div>
+
+            {/* Overlapping Card 1 */}
+            <motion.div
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 4 }}
+              className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-2xl border border-slate-100 max-w-[200px]"
+            >
+              <div className="flex items-center gap-3 mb-3">
+                <div className="p-2 bg-emerald-50 rounded-xl">
+                  <Activity className="w-5 h-5 text-[#b8e2b0]" />
+                </div>
+                <p className="text-[10px] font-black uppercase tracking-widest text-[#b8e2b0]">Live Update</p>
+              </div>
+              <p className="text-xl font-black text-slate-900">98.2%</p>
+              <p className="text-[10px] font-bold text-slate-400">System Accuracy</p>
+            </motion.div>
+
+            {/* Overlapping Card 2 */}
+            <motion.div
+              animate={{ y: [0, 10, 0] }}
+              transition={{ repeat: Infinity, duration: 5 }}
+              className="absolute top-12 -right-8 bg-[#b8e2b0] p-6 rounded-3xl shadow-2xl max-w-[180px] text-emerald-950"
+            >
+              <div className="flex items-center gap-2 mb-3">
+                <Shield className="w-4 h-4 fill-emerald-950" />
+                <p className="text-[10px] font-black uppercase">Verified</p>
+              </div>
+              <p className="text-[11px] font-black leading-tight italic">NABH Accredited Partners Only</p>
+            </motion.div>
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Stats Section */}
+      <div className="mt-40 grid grid-cols-2 lg:grid-cols-4 gap-8">
+        {[
+          { label: "Partner Hospitals", value: "480+", icon: Building2 },
+          { label: "Available Beds", value: "1.2k", icon: Bed },
+          { label: "ICU Units", value: "320", icon: Activity },
+          { label: "Success Rate", value: "100%", icon: CheckCircle2 },
+        ].map((stat, i) => (
+          <div key={i} className="p-8 bg-slate-50/50 rounded-[32px] border border-slate-100 hover:bg-white hover:shadow-xl transition-all">
+            <stat.icon className="w-6 h-6 text-[#b8e2b0] mb-4" />
+            <p className="text-3xl font-black text-slate-900 mb-1">{stat.value}</p>
+            <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
+          </div>
+        ))}
+      </div>
     </div>
   </div>
 );
@@ -326,8 +410,8 @@ const AuthPage = ({ setUser }) => {
               key={r}
               onClick={() => setRole(r)}
               className={`flex-1 py-3 rounded-xl text-[10px] font-black capitalize transition-all cursor-pointer ${role === r
-                  ? "bg-white text-emerald-900 shadow-sm border border-slate-50"
-                  : "text-slate-400 hover:text-emerald-900"
+                ? "bg-white text-emerald-900 shadow-sm border border-slate-50"
+                : "text-slate-400 hover:text-emerald-900"
                 }`}
             >
               {r}
