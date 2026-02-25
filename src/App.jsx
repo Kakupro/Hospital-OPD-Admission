@@ -106,12 +106,12 @@ const BedLayout = ({ wards, onSelect }) => {
                 whileTap={bed.status === 'available' ? { scale: 0.95 } : {}}
                 onClick={() => bed.status === 'available' && onSelect(bed)}
                 className={`aspect-square rounded-2xl flex items-center justify-center text-xs font-black transition-all border-2 ${bed.status === 'occupied'
-                    ? 'bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed'
-                    : bed.type === 'ICU'
-                      ? 'bg-emerald-50 border-emerald-100 text-primary shadow-sm hover:border-primary'
-                      : bed.type === 'VIP'
-                        ? 'bg-orange-50 border-orange-100 text-orange-600'
-                        : 'bg-white border-emerald-200 text-primary hover:bg-primary-light hover:border-primary shadow-lg shadow-emerald-900/5 cursor-pointer'
+                  ? 'bg-slate-50 border-slate-100 text-slate-300 cursor-not-allowed'
+                  : bed.type === 'ICU'
+                    ? 'bg-emerald-50 border-emerald-100 text-primary shadow-sm hover:border-primary'
+                    : bed.type === 'VIP'
+                      ? 'bg-orange-50 border-orange-100 text-orange-600'
+                      : 'bg-white border-emerald-200 text-primary hover:bg-primary-light hover:border-primary shadow-lg shadow-emerald-900/5 cursor-pointer'
                   }`}
               >
                 {bed.id.split('-')[1]}
@@ -137,7 +137,7 @@ const Landing = () => (
       <span className="text-primary">Simplified.</span>
     </h1>
     <p className="max-w-xl text-slate-500 font-bold text-lg mb-16 leading-relaxed">
-      Search hospital beds, ICU availability and OPD slots with OYO-like ease. Built for speed, trust and care.
+      Search hospital beds, ICU availability and OPD slots with absolute ease. Built for speed, trust and care.
     </p>
     <div className="flex flex-col md:flex-row gap-6">
       <Link to="/auth?role=patient" className="px-14 py-7 bg-primary text-white rounded-[32px] font-black text-xl shadow-2xl shadow-primary/30 hover:bg-primary-dark transform hover:scale-105 transition-all">
@@ -220,6 +220,21 @@ const AuthPage = ({ setUser }) => {
 const PatientPortal = () => {
   const navigate = useNavigate();
   const [selectedHospital, setSelectedHospital] = useState(null);
+  const [locationName, setLocationName] = useState("Indiranagar, Bangalore");
+  const [isChangingLocation, setIsChangingLocation] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const detectLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        // Simplified: In a real app, we'd use reverse geocoding here
+        setLocationName("Detected: Bangalore Central");
+        alert("Location updated based on your browser coordinates!");
+      }, () => {
+        alert("Location permission denied. Please enter manually.");
+      });
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-24 bg-white">
@@ -228,21 +243,60 @@ const PatientPortal = () => {
           <div className="bg-primary-light text-primary-dark px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] mb-6 w-fit border border-emerald-100">
             <MapIcon className="w-4 h-4 inline mr-2" /> Live Location Tracking
           </div>
-          <h2 className="text-6xl font-black text-slate-900 leading-[1.1]">Showing <span className="text-primary">available beds</span> <br /> in your radius.</h2>
+          <h2 className="text-6xl font-black text-slate-900 leading-[1.1]">Showing <span className="text-primary">available beds</span> <br /> in {locationName.split(',')[0]}.</h2>
         </div>
-        <div className="flex bg-slate-50 p-2 rounded-[32px] border border-slate-100 shadow-2xl w-full md:w-auto">
-          <div className="flex items-center gap-5 px-8 py-4 border-r border-slate-200">
-            <MapPin className="text-primary w-6 h-6" />
-            <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Your Location</p>
-              <p className="font-black text-slate-900 text-lg">Indiranagar, KA</p>
+
+        <div className="flex flex-col items-end gap-4 w-full md:w-auto">
+          <div className="flex bg-slate-50 p-2 rounded-[32px] border border-slate-100 shadow-2xl w-full">
+            <div className="flex items-center gap-5 px-8 py-4 border-r border-slate-200">
+              <MapPin className="text-primary w-6 h-6" />
+              <div>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Active Radius</p>
+                <p className="font-black text-slate-900 text-lg">{locationName}</p>
+              </div>
             </div>
+            <button
+              onClick={() => setIsChangingLocation(true)}
+              className="px-10 font-black text-primary hover:bg-white rounded-[24px] transition-all cursor-pointer whitespace-nowrap"
+            >
+              Change
+            </button>
           </div>
-          <button className="px-10 font-black text-primary hover:bg-white rounded-[24px] transition-all cursor-pointer">
-            Change
+          <button onClick={detectLocation} className="text-[10px] font-black text-primary-dark uppercase tracking-widest hover:underline cursor-pointer">
+            ⚡ Use My Current Location
           </button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {isChangingLocation && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[110] bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
+            <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className="bg-white p-10 rounded-[48px] shadow-2xl w-full max-w-md">
+              <h3 className="text-2xl font-black mb-6">Enter Your Area</h3>
+              <input
+                autoFocus
+                type="text"
+                placeholder="e.g. HSR Layout, Mumbai..."
+                className="w-full bg-slate-50 border-2 border-slate-100 rounded-3xl px-8 py-5 text-xl font-bold outline-none focus:border-primary mb-6"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    setLocationName(e.target.value);
+                    setIsChangingLocation(false);
+                  }
+                }}
+              />
+              <div className="flex gap-4">
+                <button onClick={() => setIsChangingLocation(false)} className="flex-1 py-4 font-black text-slate-400 hover:text-slate-600">Cancel</button>
+                <button onClick={() => {
+                  const val = document.querySelector('input').value;
+                  if (val) setLocationName(val);
+                  setIsChangingLocation(false);
+                }} className="flex-1 bg-primary text-white py-4 rounded-2xl font-black shadow-lg shadow-primary/20">Update</button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
         {HOSPITALS.map(h => (
