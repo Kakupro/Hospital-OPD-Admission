@@ -235,130 +235,177 @@ const BedLayout = ({ wards, onSelect }) => {
 
 // --- Main Pages ---
 
-const Landing = () => (
-  <div className="min-h-[calc(100vh-80px)] bg-white relative overflow-hidden">
-    {/* Background Decorative Elements */}
-    <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-[#b8e2b0]/15 blur-[150px] rounded-full -z-10" />
-    <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-emerald-50/50 blur-[120px] rounded-full -z-10" />
+const Landing = () => {
+  const mouseX = motion.useMotionValue(0);
+  const mouseY = motion.useMotionValue(0);
 
-    <div className="max-w-7xl mx-auto px-6 pt-20 pb-32">
-      <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-        {/* Left Side: Content */}
-        <div className="flex-1 text-center lg:text-left">
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-emerald-50 text-emerald-900 px-6 py-2 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 w-fit mx-auto lg:mx-0 border border-emerald-100 shadow-sm"
-          >
-            Digital Healthcare Infrastructure
-          </motion.div>
+  const rotateX = motion.useTransform(mouseY, [-300, 300], [10, -10]);
+  const rotateY = motion.useTransform(mouseX, [-300, 300], [-10, 10]);
 
-          <h1 className="text-5xl md:text-7xl xl:text-8xl font-black text-slate-900 leading-[1.05] mb-8 tracking-tighter">
-            Heal Better, <br />
-            <span className="text-[#b8e2b0] italic">Register Faster.</span>
-          </h1>
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
+    mouseX.set(x);
+    mouseY.set(y);
+  };
 
-          <p className="max-w-xl text-slate-500 font-bold text-lg mb-12 leading-relaxed tracking-tight mx-auto lg:mx-0">
-            India's most advanced hospital bed inventory network. Check live ICU
-            availability and secure admissions with 100% transparency.
-          </p>
+  return (
+    <div
+      className="min-h-[calc(100vh-80px)] bg-white relative overflow-hidden flex flex-col items-center justify-center p-6"
+      onMouseMove={handleMouseMove}
+    >
+      {/* 3D Depth Background Elements */}
+      <div className="absolute top-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-[#b8e2b0]/10 blur-[180px] rounded-full -z-10 animate-pulse" />
+      <div className="absolute bottom-[-15%] left-[-10%] w-[800px] h-[800px] bg-emerald-100/30 blur-[150px] rounded-full -z-10" />
 
-          <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
-            <Link
-              to="/auth?role=patient"
-              className="px-10 py-5 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black text-lg shadow-xl shadow-primary/20 hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3 group"
+      {/* Floating 3D Decorative Orbs */}
+      <motion.div
+        animate={{ y: [-20, 20, -20], x: [0, 10, 0] }}
+        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
+        className="absolute top-40 left-[15%] w-16 h-16 bg-[#b8e2b0]/40 rounded-full blur-xl -z-5"
+      />
+      <motion.div
+        animate={{ y: [0, -30, 0], scale: [1, 1.2, 1] }}
+        transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
+        className="absolute bottom-40 right-[15%] w-24 h-24 bg-emerald-200/30 rounded-full blur-2xl -z-5"
+      />
+
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24 relative">
+          {/* Left Side: Text Content */}
+          <div className="flex-1 text-center lg:text-left z-10">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-emerald-50 text-emerald-900 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 w-fit mx-auto lg:mx-0 border border-emerald-100 shadow-sm pista-glow"
             >
-              Check Availability <ArrowRight className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              to="/auth?role=hospital"
-              className="px-10 py-5 bg-white text-slate-900 border-2 border-slate-100 rounded-2xl font-black text-lg hover:border-primary hover:bg-primary/5 transition-all transform hover:-translate-y-1"
-            >
-              Partner Portal
-            </Link>
-          </div>
+              Standardizing Health Tech
+            </motion.div>
 
-          <div className="mt-16 flex flex-wrap gap-8 justify-center lg:justify-start items-center">
-            <div className="flex -space-x-3">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-100">
-                  <img src={`https://i.pravatar.cc/100?u=${i}`} className="w-full h-full rounded-full" />
-                </div>
-              ))}
-            </div>
-            <p className="text-sm font-bold text-slate-400">
-              Trusted by <span className="text-slate-900 font-black">24,000+</span> patients monthly
+            <h1 className="text-6xl md:text-8xl xl:text-9xl font-black text-slate-900 leading-[0.9] mb-10 tracking-tighter">
+              Heal <br />
+              <span className="text-[#b8e2b0] italic drop-shadow-sm">Directly.</span>
+            </h1>
+
+            <p className="max-w-xl text-slate-500 font-bold text-xl mb-14 leading-relaxed tracking-tight mx-auto lg:mx-0">
+              India's first 3D-enabled hospital inventory network. Check live
+              ICU availability and secure admissions with futuristic transparency.
             </p>
-          </div>
-        </div>
 
-        {/* Right Side: Visual Image */}
-        <div className="flex-1 w-full max-w-2xl">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: 30 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="relative"
-          >
-            {/* Main Image */}
-            <div className="rounded-[48px] overflow-hidden shadow-2xl border-8 border-white group">
-              <img
-                src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200"
-                className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-1000"
-                alt="Modern Hospital Interior"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/40 via-transparent to-transparent" />
+            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+              <Link
+                to="/auth?role=patient"
+                className="px-12 py-6 bg-[#b8e2b0] text-emerald-900 rounded-[24px] font-black text-xl shadow-2xl shadow-primary/30 hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-2 flex items-center justify-center gap-4 group pista-glow"
+              >
+                Find Bed <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+              </Link>
+              <Link
+                to="/auth?role=hospital"
+                className="px-12 py-6 bg-white text-slate-900 border-2 border-slate-100 rounded-[24px] font-black text-xl hover:border-primary hover:bg-primary/5 transition-all transform hover:-translate-y-2 shadow-xl shadow-slate-900/5"
+              >
+                Register Clinic
+              </Link>
             </div>
 
-            {/* Overlapping Card 1 */}
-            <motion.div
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 4 }}
-              className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-2xl border border-slate-100 max-w-[200px]"
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <div className="p-2 bg-emerald-50 rounded-xl">
-                  <Activity className="w-5 h-5 text-[#b8e2b0]" />
-                </div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-[#b8e2b0]">Live Update</p>
+            <div className="mt-20 flex flex-wrap gap-10 justify-center lg:justify-start items-center">
+              <div className="flex -space-x-4">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-slate-100 shadow-md">
+                    <img src={`https://i.pravatar.cc/150?u=${i + 10}`} className="w-full h-full rounded-full" />
+                  </div>
+                ))}
               </div>
-              <p className="text-xl font-black text-slate-900">98.2%</p>
-              <p className="text-[10px] font-bold text-slate-400">System Accuracy</p>
-            </motion.div>
-
-            {/* Overlapping Card 2 */}
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 5 }}
-              className="absolute top-12 -right-8 bg-[#b8e2b0] p-6 rounded-3xl shadow-2xl max-w-[180px] text-emerald-950"
-            >
-              <div className="flex items-center gap-2 mb-3">
-                <Shield className="w-4 h-4 fill-emerald-950" />
-                <p className="text-[10px] font-black uppercase">Verified</p>
+              <div>
+                <p className="text-lg font-black text-slate-900 leading-none">24.5k+</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Verified Patients</p>
               </div>
-              <p className="text-[11px] font-black leading-tight italic">NABH Accredited Partners Only</p>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-
-      {/* Stats Section */}
-      <div className="mt-40 grid grid-cols-2 lg:grid-cols-4 gap-8">
-        {[
-          { label: "Partner Hospitals", value: "480+", icon: Building2 },
-          { label: "Available Beds", value: "1.2k", icon: Bed },
-          { label: "ICU Units", value: "320", icon: Activity },
-          { label: "Success Rate", value: "100%", icon: CheckCircle2 },
-        ].map((stat, i) => (
-          <div key={i} className="p-8 bg-slate-50/50 rounded-[32px] border border-slate-100 hover:bg-white hover:shadow-xl transition-all">
-            <stat.icon className="w-6 h-6 text-[#b8e2b0] mb-4" />
-            <p className="text-3xl font-black text-slate-900 mb-1">{stat.value}</p>
-            <p className="text-[11px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
+            </div>
           </div>
-        ))}
+
+          {/* Right Side: 3D Interactive Visual */}
+          <div className="flex-1 w-full max-w-2xl perspective-1000">
+            <motion.div
+              style={{
+                rotateX: rotateX,
+                rotateY: rotateY,
+                transformStyle: "preserve-3d",
+              }}
+              className="relative cursor-none group"
+            >
+              {/* Main Image with Depth */}
+              <div className="rounded-[64px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] border-[12px] border-white relative group-hover:shadow-[0_80px_120px_rgba(184,226,176,0.3)] transition-all duration-700">
+                <img
+                  src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1200"
+                  className="w-full aspect-[4/5] object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
+                  alt="3D Interactive Medical Facility"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/40 via-transparent to-transparent opacity-60" />
+
+                {/* Floating 3D Elements inside the frame (Z-translated) */}
+                <motion.div
+                  initial={{ translateZ: 50 }}
+                  className="absolute inset-0 flex items-center justify-center"
+                >
+                  <div className="w-full h-full bg-primary/10 backdrop-blur-[2px] pointer-events-none" />
+                </motion.div>
+              </div>
+
+              {/* Float Card 1: Live Pulse */}
+              <motion.div
+                style={{ translateZ: 100 }}
+                className="absolute -bottom-10 -right-10 bg-white p-8 rounded-[32px] shadow-2xl border border-emerald-50 flex items-center gap-6"
+              >
+                <div className="relative">
+                  <Activity className="w-10 h-10 text-[#b8e2b0]" />
+                  <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-ping" />
+                </div>
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Status</p>
+                  <p className="text-2xl font-black text-slate-900 tracking-tight">Active Node</p>
+                </div>
+              </motion.div>
+
+              {/* Float Card 2: Interactive Badge */}
+              <motion.div
+                style={{ translateZ: 150 }}
+                className="absolute top-20 -left-16 bg-emerald-950 text-[#b8e2b0] p-8 rounded-[32px] shadow-2xl max-w-[200px]"
+              >
+                <div className="flex items-center gap-3 mb-4">
+                  <Shield className="w-6 h-6 fill-[#b8e2b0]" />
+                  <p className="text-xs font-black uppercase tracking-widest">3D Secured</p>
+                </div>
+                <p className="text-sm font-bold text-white/60 leading-relaxed italic">Immutable inventory ledger tracking every bed in real-time.</p>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+
+        {/* Premium Feature Matrix */}
+        <div className="mt-40 grid grid-cols-2 lg:grid-cols-4 gap-10">
+          {[
+            { label: "Partner Reach", value: "480+", icon: Building2 },
+            { label: "Beds Unified", value: "1.2k", icon: Bed },
+            { label: "ICU Pulse", value: "320", icon: Activity },
+            { label: "Deployment", value: "Live", icon: CheckCircle2 },
+          ].map((stat, i) => (
+            <motion.div
+              whileHover={{ y: -15, scale: 1.05 }}
+              key={i}
+              className="p-10 bg-white rounded-[40px] border border-slate-100 shadow-xl shadow-slate-900/[0.02] hover:shadow-primary/20 hover:border-primary/30 transition-all duration-500"
+            >
+              <div className="bg-emerald-50 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
+                <stat.icon className="w-7 h-7 text-[#b8e2b0]" />
+              </div>
+              <p className="text-4xl font-black text-slate-900 mb-2 tracking-tighter italic">{stat.value}</p>
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">{stat.label}</p>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const AuthPage = ({ setUser }) => {
   const [searchParams] = useSearchParams();
