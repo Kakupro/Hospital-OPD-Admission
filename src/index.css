@@ -1,31 +1,32 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #2563eb;
-  --color-primary-dark: #1e40af;
-  --color-secondary: #10b981;
-  --color-accent: #f59e0b;
-  --color-background: #f8fafc;
-  --color-surface: #ffffff;
+  --color-primary: #4caf50;
+  --color-primary-dark: #388e3c;
+  --color-primary-light: #e8f5e9;
+  --color-secondary: #81c784;
+  --color-accent: #c8e6c9;
+  --color-background: #ffffff;
+  --color-surface: #f1f8e9;
 }
 
 @layer base {
   body {
-    @apply bg-background text-slate-900 font-sans antialiased;
+    @apply bg-background text-slate-800 font-sans antialiased;
   }
 }
 
 @layer components {
   .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+    @apply bg-white/80 backdrop-blur-xl border border-white/40 shadow-sm;
   }
 
   .card {
-    @apply bg-white rounded-3xl border border-slate-100 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1 hover:border-primary/20;
+    @apply bg-white rounded-[40px] border border-slate-100 shadow-sm transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 hover:border-primary/20;
   }
 
   .btn {
-    @apply inline-flex items-center justify-center font-bold transition-all duration-200 cursor-pointer disabled:opacity-50;
+    @apply inline-flex items-center justify-center font-black transition-all duration-200 cursor-pointer disabled:opacity-50 active:scale-95;
   }
 
   .no-scrollbar::-webkit-scrollbar {
@@ -35,5 +36,10 @@
   .no-scrollbar {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+
+  /* Pista Glow Effect */
+  .pista-glow {
+    box-shadow: 0 0 20px rgba(76, 175, 80, 0.15);
   }
 }
