@@ -1209,10 +1209,7 @@ const AdminPortal = ({ bookings, hospitals, setHospitals }) => {
 // --- App Root ---
 
 function App() {
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem("medstay_user");
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [user, setUser] = useState(null);
 
   const [hospitals, setHospitals] = useState(() => {
     const saved = localStorage.getItem("medstay_hospitals");
