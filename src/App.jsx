@@ -36,6 +36,7 @@ import {
   IndianRupee,
   Map as MapIcon,
   X,
+  Plus,
   SlidersHorizontal,
   ArrowRight,
 } from "lucide-react";
@@ -580,6 +581,8 @@ const AuthPage = ({ setUser }) => {
 const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user }) => {
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [selectedBed, setSelectedBed] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [userLocation, setUserLocation] = useState("Bangalore");
   const [bookingDetails, setBookingDetails] = useState({
     patientName: user?.name || "",
     age: "",
@@ -587,6 +590,18 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
     phone: "",
     reason: "",
   });
+
+  const filteredHospitals = hospitals.filter(h => {
+    const matchesSearch = h.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      h.location.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesLocation = userLocation === "All Operations" || h.location.toLowerCase().includes(userLocation.toLowerCase());
+    return matchesSearch && matchesLocation;
+  });
+
+  const uniqueLocations = Array.from(new Set(hospitals.map(h => {
+    const parts = h.location.split(",");
+    return parts[parts.length - 1].trim();
+  })));
 
   const handleBooking = (e) => {
     e.preventDefault();
@@ -630,11 +645,23 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
     <div className="max-w-7xl mx-auto px-6 py-20 pb-40">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-16">
         <div>
-          <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit border border-emerald-100">
-            <MapPin className="w-3 h-3" /> Live in Bangalore
+          <div className="flex flex-wrap gap-4 mb-6">
+            <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border border-emerald-100">
+              <MapPin className="w-3 h-3" /> Live Operations
+            </div>
+            <select
+              value={userLocation}
+              onChange={(e) => setUserLocation(e.target.value)}
+              className="bg-slate-900 text-[#b8e2b0] px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border-none outline-none cursor-pointer hover:bg-emerald-950 transition-colors"
+            >
+              <option value="All Operations">Global Network</option>
+              {uniqueLocations.map(loc => (
+                <option key={loc} value={loc}>{loc}</option>
+              ))}
+            </select>
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Inventory near <span className="text-[#b8e2b0] italic">Indiranagar.</span>
+            Inventory in <span className="text-[#b8e2b0] italic">{userLocation === "All Operations" ? "Global Network" : userLocation}.</span>
           </h2>
         </div>
 
@@ -642,76 +669,89 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
           <Search className="text-slate-300 w-5 h-5 mx-4" />
           <input
             type="text"
-            placeholder="Search hospitals..."
+            placeholder="Search within node..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
             className="bg-transparent border-none outline-none font-bold text-sm flex-1 py-3"
           />
+          {searchQuery && (
+            <button onClick={() => setSearchQuery("")} className="mr-4 text-slate-300 hover:text-slate-900">
+              <X className="w-4 h-4" />
+            </button>
+          )}
         </div>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {hospitals.map((h) => (
-          <motion.div
-            key={h.id}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            whileHover={{ y: -12 }}
-            className="card-premium group"
-          >
-            <div className="h-64 relative overflow-hidden">
-              <img
-                src={h.image}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
-                alt={h.name}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-              <div className="absolute top-6 left-6 glass px-4 py-2 rounded-xl text-[10px] font-black flex items-center gap-2">
-                <Star className="w-3 h-3 text-emerald-600 fill-emerald-600" /> {h.rating} ({h.reviews})
-              </div>
-            </div>
-            <div className="p-10">
-              <div className="flex justify-between items-start mb-6">
-                <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
-                    {h.type}
-                  </p>
-                  <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none italic">
-                    {h.name}
-                  </h3>
+        {filteredHospitals.length === 0 ? (
+          <div className="col-span-full py-20 text-center">
+            <p className="text-slate-400 font-black uppercase tracking-widest">No nodes found in "{searchQuery}"</p>
+          </div>
+        ) : (
+          filteredHospitals.map((h) => (
+            <motion.div
+              key={h.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ y: -12 }}
+              className="card-premium group"
+            >
+              <div className="h-64 relative overflow-hidden">
+                <img
+                  src={h.image}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+                  alt={h.name}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="absolute top-6 left-6 glass px-4 py-2 rounded-xl text-[10px] font-black flex items-center gap-2">
+                  <Star className="w-3 h-3 text-emerald-600 fill-emerald-600" /> {h.rating} ({h.reviews})
                 </div>
               </div>
-              <p className="text-slate-400 font-bold text-sm mb-10 flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-[#b8e2b0]" /> {h.location}
-              </p>
+              <div className="p-10">
+                <div className="flex justify-between items-start mb-6">
+                  <div>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
+                      {h.type}
+                    </p>
+                    <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none italic">
+                      {h.name}
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-slate-400 font-bold text-sm mb-10 flex items-center gap-2">
+                  <MapPin className="w-4 h-4 text-[#b8e2b0]" /> {h.location}
+                </p>
 
-              <div className="grid grid-cols-2 gap-4 mb-10">
-                <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
-                    Price/day
-                  </p>
-                  <p className="text-xl font-black text-slate-900">₹{h.pricePerDay}</p>
+                <div className="grid grid-cols-2 gap-4 mb-10">
+                  <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                      Price/day
+                    </p>
+                    <p className="text-xl font-black text-slate-900">₹{h.pricePerDay}</p>
+                  </div>
+                  <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
+                    <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">
+                      Available
+                    </p>
+                    <p className="text-xl font-black text-emerald-700">
+                      {h.wards.reduce(
+                        (acc, w) => acc + w.beds.filter((b) => b.status === "available").length,
+                        0
+                      )}
+                    </p>
+                  </div>
                 </div>
-                <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
-                  <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">
-                    Available
-                  </p>
-                  <p className="text-xl font-black text-emerald-700">
-                    {h.wards.reduce(
-                      (acc, w) => acc + w.beds.filter((b) => b.status === "available").length,
-                      0
-                    )}
-                  </p>
-                </div>
-              </div>
 
-              <button
-                onClick={() => setSelectedHospital(h)}
-                className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black shadow-lg hover:bg-[#b8e2b0] hover:text-emerald-900 transition-all cursor-pointer group flex items-center justify-center gap-3"
-              >
-                Inspect Layout <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
-          </motion.div>
-        ))}
+                <button
+                  onClick={() => setSelectedHospital(h)}
+                  className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black shadow-lg hover:bg-[#b8e2b0] hover:text-emerald-900 transition-all cursor-pointer group flex items-center justify-center gap-3"
+                >
+                  Inspect Layout <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </button>
+              </div>
+            </motion.div>
+          ))
+        )}
       </div>
 
       <AnimatePresence>
@@ -987,7 +1027,36 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
   );
 };
 
-const AdminPortal = ({ bookings, hospitals }) => {
+const AdminPortal = ({ bookings, hospitals, setHospitals }) => {
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [newHospital, setNewHospital] = useState({
+    name: "",
+    location: "",
+    pricePerDay: "",
+    type: "Multi-Specialty",
+    image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800"
+  });
+
+  const handleAddHospital = (e) => {
+    e.preventDefault();
+    const hospital = {
+      ...newHospital,
+      id: Date.now(),
+      rating: 5.0,
+      reviews: 0,
+      distance: "0 km",
+      wards: [
+        { name: "General Ward", beds: Array.from({ length: 15 }, (_, i) => ({ id: `GEN-${i + 1}`, type: "General", status: "available" })) },
+        { name: "Executive ICU", beds: Array.from({ length: 8 }, (_, i) => ({ id: `ICU-${i + 1}`, type: "ICU", status: "available" })) }
+      ]
+    };
+    const updated = [...hospitals, hospital];
+    setHospitals(updated);
+    localStorage.setItem("medstay_hospitals", JSON.stringify(updated));
+    setShowAddForm(false);
+    setNewHospital({ name: "", location: "", pricePerDay: "", type: "Multi-Specialty", image: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=800" });
+    alert("New Node Activated in the Network!");
+  };
   return (
     <div className="max-w-7xl mx-auto px-6 py-20 pb-40">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 bg-[#b8e2b0] p-16 rounded-[64px] relative overflow-hidden">
@@ -1001,7 +1070,7 @@ const AdminPortal = ({ bookings, hospitals }) => {
           </h2>
         </div>
 
-        <div className="flex gap-8 relative z-10">
+        <div className="flex flex-wrap gap-8 relative z-10">
           <motion.div whileHover={{ scale: 1.05 }} className="bg-emerald-950 p-10 rounded-[40px] text-white shadow-2xl min-w-[200px]">
             <p className="text-[10px] font-black text-[#b8e2b0] uppercase tracking-[0.3em] mb-3">Network Reservations</p>
             <p className="text-6xl font-black tracking-tighter italic">{bookings.length}</p>
@@ -1010,8 +1079,64 @@ const AdminPortal = ({ bookings, hospitals }) => {
             <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-3">Live Nodes</p>
             <p className="text-6xl font-black text-slate-900 tracking-tighter italic">{hospitals.length}</p>
           </motion.div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            onClick={() => setShowAddForm(true)}
+            className="bg-slate-900 text-white p-10 rounded-[40px] shadow-2xl min-w-[200px] flex flex-col items-center justify-center gap-2 border-4 border-white/10 hover:border-[#b8e2b0] transition-all cursor-pointer"
+          >
+            <Plus className="w-8 h-8 text-[#b8e2b0]" />
+            <p className="text-[10px] font-black uppercase tracking-[0.3em]">Add Hospital</p>
+          </motion.button>
         </div>
       </div>
+
+      <AnimatePresence>
+        {showAddForm && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2000] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-6">
+            <motion.div initial={{ scale: 0.95, y: 30 }} animate={{ scale: 1, y: 0 }} className="bg-white w-full max-w-2xl rounded-[40px] p-12 shadow-2xl relative">
+              <button
+                onClick={() => setShowAddForm(false)}
+                className="absolute top-10 right-10 p-3 bg-slate-50 rounded-full hover:bg-red-50 hover:text-red-500 transition-all cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div className="mb-10">
+                <h3 className="text-3xl font-black text-slate-900 italic tracking-tight">Onboard New Hospital</h3>
+                <p className="text-slate-400 font-bold">Deploy a new medical node to the global network.</p>
+              </div>
+              <form onSubmit={handleAddHospital} className="space-y-6">
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Hospital Name</label>
+                    <input required value={newHospital.name} onChange={e => setNewHospital({ ...newHospital, name: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-[#b8e2b0]/20" placeholder="e.g. City Life Hospital" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Location/City</label>
+                    <input required value={newHospital.location} onChange={e => setNewHospital({ ...newHospital, location: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-[#b8e2b0]/20" placeholder="e.g. Bangalore, Sector 4" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Price Per Day (₹)</label>
+                    <input required type="number" value={newHospital.pricePerDay} onChange={e => setNewHospital({ ...newHospital, pricePerDay: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-[#b8e2b0]/20" placeholder="e.g. 4500" />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Facility Type</label>
+                    <select value={newHospital.type} onChange={e => setNewHospital({ ...newHospital, type: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 font-bold outline-none cursor-pointer">
+                      <option>Multi-Specialty</option>
+                      <option>General Hospital</option>
+                      <option>Trauma Center</option>
+                      <option>ICU Specialist</option>
+                    </select>
+                  </div>
+                </div>
+                <button type="submit" className="w-full py-6 bg-slate-900 text-white rounded-[24px] font-black text-xl shadow-xl hover:bg-[#b8e2b0] hover:text-emerald-900 transition-all transform hover:-translate-y-2">Activate Node</button>
+              </form>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="card-premium overflow-hidden p-16 isolate relative">
         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#b8e2b0] to-transparent" />
@@ -1164,6 +1289,7 @@ function App() {
                 <AdminPortal
                   bookings={bookings}
                   hospitals={hospitals}
+                  setHospitals={setHospitals}
                 />
               ) : (
                 <Navigate to="/auth?role=admin" />
