@@ -336,7 +336,7 @@ const Landing = () => {
                   stroke="#00C9A7"
                   fill="none"
                   strokeWidth="2"
-                  className="animate-[dash_2s_linear_infinite]"
+                  className=""
                   strokeDasharray="100"
                   strokeDashoffset="100"
                 />
@@ -505,7 +505,7 @@ const Landing = () => {
           initial={{ opacity: 0, scale: 0.98 }}
           className="max-w-7xl mx-auto rounded-[60px] p-24 bg-gradient-to-br from-teal/20 to-teal/5 border border-teal/20 text-center relative overflow-hidden"
         >
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-teal/10 opacity-50" />
+          <div className="absolute top-0 left-0 w-full h-full bg-teal/5 opacity-50" />
           <h2 className="text-4xl md:text-7xl font-bold text-ice mb-12 tracking-tighter italic">Ready to heal <span className="text-teal">faster?</span></h2>
           <div className="flex flex-wrap justify-center gap-8 relative z-10">
             <Link to="/auth?role=patient" className="btn-teal px-16 py-6 text-xl">Book a Bed Now</Link>
