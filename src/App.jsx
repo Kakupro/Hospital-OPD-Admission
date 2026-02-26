@@ -555,8 +555,8 @@ const AuthPage = ({ setUser }) => {
               key={r}
               onClick={() => setRole(r)}
               className={`flex-1 py-3 rounded-xl text-[10px] font-black capitalize transition-all cursor-pointer ${role === r
-                ? "bg-white text-emerald-900 shadow-sm border border-slate-50"
-                : "text-slate-400 hover:text-emerald-900"
+                ? "bg-teal text-navy shadow-lg"
+                : "text-slate hover:text-ice"
                 }`}
             >
               {r}
@@ -566,25 +566,25 @@ const AuthPage = ({ setUser }) => {
 
         <form onSubmit={handleLogin} className="space-y-6">
           <div className="space-y-2">
-            <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+            <label className="block text-[10px] font-black uppercase tracking-widest text-slate ml-2">
               Email ID
             </label>
             <input
               type="email"
               required
               placeholder={`${role}@medstay.com`}
-              className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-[#b8e2b0]/10 transition-all font-bold"
+              className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-teal/10 transition-all font-bold text-ice"
             />
           </div>
           <div className="space-y-2">
-            <label className="block text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">
+            <label className="block text-[10px] font-black uppercase tracking-widest text-slate ml-2">
               Password
             </label>
             <input
               type="password"
               required
               placeholder="••••••••"
-              className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-[#b8e2b0]/10 transition-all font-bold"
+              className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-teal/10 transition-all font-bold text-ice"
             />
           </div>
           <button className="w-full btn-teal py-5 text-lg shadow-lg">
@@ -592,9 +592,9 @@ const AuthPage = ({ setUser }) => {
           </button>
         </form>
 
-        <div className="mt-10 p-6 bg-emerald-50 rounded-3xl border border-emerald-100 text-[12px] font-bold text-slate-600">
-          <p className="flex justify-between mb-1">USER: <span className="text-emerald-900">{role}@medstay.com</span></p>
-          <p className="flex justify-between">PASS: <span className="text-emerald-900">demo123</span></p>
+        <div className="mt-10 p-6 bg-ice/5 rounded-3xl border border-ice/10 text-[12px] font-bold text-slate">
+          <p className="flex justify-between mb-1">USER: <span className="text-teal">{role}@medstay.com</span></p>
+          <p className="flex justify-between">PASS: <span className="text-teal">demo123</span></p>
         </div>
 
         <div className="mt-8 text-center">
