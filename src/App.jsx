@@ -39,7 +39,7 @@ import {
   SlidersHorizontal,
   ArrowRight,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useMotionValue, useTransform } from "framer-motion";
 
 // --- Mock Data ---
 const INITIAL_HOSPITALS = [
@@ -219,11 +219,11 @@ const BedLayout = ({ wards, onSelect }) => {
 // --- Main Pages ---
 
 const Landing = () => {
-  const mouseX = motion.useMotionValue(0);
-  const mouseY = motion.useMotionValue(0);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
 
-  const rotateX = motion.useTransform(mouseY, [-300, 300], [10, -10]);
-  const rotateY = motion.useTransform(mouseX, [-300, 300], [-10, 10]);
+  const rotateX = useTransform(mouseY, [-300, 300], [10, -10]);
+  const rotateY = useTransform(mouseX, [-300, 300], [-10, 10]);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -573,17 +573,20 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
         {hospitals.map((h) => (
           <motion.div
             key={h.id}
-            whileHover={{ y: -8 }}
-            className="bg-white rounded-[32px] border border-slate-100 shadow-xl shadow-slate-900/[0.02] overflow-hidden group hover:shadow-2xl hover:shadow-[#b8e2b0]/10 hover:border-[#b8e2b0]/30 transition-all duration-500"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -12 }}
+            className="card-premium group"
           >
-            <div className="h-64 relative">
+            <div className="h-64 relative overflow-hidden">
               <img
                 src={h.image}
-                className="w-full h-full object-cover group-hover:rotate-1 transition-transform duration-1000"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
                 alt={h.name}
               />
-              <div className="absolute top-6 left-6 bg-white/95 px-4 py-2 rounded-xl text-[10px] font-black flex items-center gap-2 shadow-xl border border-white/50">
-                <Star className="w-3 h-3 text-[#b8e2b0] fill-[#b8e2b0]" /> {h.rating} ({h.reviews})
+              <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+              <div className="absolute top-6 left-6 glass px-4 py-2 rounded-xl text-[10px] font-black flex items-center gap-2">
+                <Star className="w-3 h-3 text-emerald-600 fill-emerald-600" /> {h.rating} ({h.reviews})
               </div>
             </div>
             <div className="p-10">
@@ -598,7 +601,7 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
                 </div>
               </div>
               <p className="text-slate-400 font-bold text-sm mb-10 flex items-center gap-2">
-                <MapPin className="w-4 h-4" /> {h.location}
+                <MapPin className="w-4 h-4 text-[#b8e2b0]" /> {h.location}
               </p>
 
               <div className="grid grid-cols-2 gap-4 mb-10">
@@ -625,7 +628,7 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
                 onClick={() => setSelectedHospital(h)}
                 className="w-full py-5 bg-slate-900 text-white rounded-2xl font-black shadow-lg hover:bg-[#b8e2b0] hover:text-emerald-900 transition-all cursor-pointer group flex items-center justify-center gap-3"
               >
-                Check Layout <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Inspect Layout <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </button>
             </div>
           </motion.div>
@@ -857,7 +860,7 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
 
 const AdminPortal = ({ bookings, hospitals }) => {
   return (
-    <div className="max-w-7xl mx-auto px-6 py-20">
+    <div className="max-w-7xl mx-auto px-6 py-20 pb-40">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-16">
         <div>
           <div className="flex items-center gap-2 bg-emerald-950 text-[#b8e2b0] px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit">

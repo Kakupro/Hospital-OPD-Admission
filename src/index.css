@@ -13,17 +13,21 @@
 
 @layer base {
   body {
-    @apply bg-background text-text-main font-sans antialiased;
+    @apply bg-background text-text-main font-sans antialiased selection:bg-primary/30;
   }
 }
 
 @layer components {
   .glass {
-    @apply bg-white/90 backdrop-blur-xl border border-white/40 shadow-sm;
+    @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  }
+
+  .glass-dark {
+    @apply bg-slate-900/80 backdrop-blur-2xl border border-slate-800/50 shadow-2xl;
   }
 
   .card-premium {
-    @apply bg-white rounded-[48px] border border-emerald-100/50 shadow-2xl shadow-emerald-900/[0.03] transition-all duration-700 hover:shadow-emerald-900/[0.08] hover:-translate-y-2 hover:border-primary;
+    @apply bg-white rounded-[48px] border border-emerald-100/50 shadow-2xl shadow-emerald-900/[0.03] transition-all duration-700 hover:shadow-emerald-900/[0.08] hover:-translate-y-2 hover:border-primary/50;
   }
 
   .btn-primary {
@@ -40,6 +44,10 @@
   }
 
   .pista-glow {
-    box-shadow: 0 0 40px rgba(184, 226, 176, 0.2);
+    box-shadow: 0 0 60px rgba(184, 226, 176, 0.25);
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900;
   }
 }
