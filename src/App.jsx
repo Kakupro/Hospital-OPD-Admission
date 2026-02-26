@@ -113,7 +113,7 @@ const INITIAL_HOSPITALS = [
 
 const Logo = () => (
   <Link to="/" className="flex items-center gap-3 group">
-    <div className="w-10 h-10 bg-teal rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(0,201,167,0.3)] group-hover:rotate-[15deg] transition-transform duration-500">
+    <div className="w-10 h-10 bg-teal rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(0,201,167,0.3)] group-hover:rotate-[15deg] transition-all duration-500">
       <Cross className="text-navy w-6 h-6" />
     </div>
     <span className="text-2xl font-bold text-ice tracking-tighter font-syne">
@@ -530,25 +530,26 @@ const AuthPage = ({ setUser }) => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-80px)] bg-slate-50 flex items-center justify-center p-6">
+    <div className="min-h-[calc(100vh-80px)] dot-grid bg-[#0A1628] flex items-center justify-center p-6">
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="max-w-md w-full bg-white p-12 rounded-[40px] shadow-2xl shadow-slate-900/[0.04] border border-slate-100"
+        className="max-w-md w-full glass-card p-12 border-teal/20"
       >
         <div className="text-center mb-10">
-          <div className="w-16 h-16 bg-emerald-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-emerald-100">
-            <Shield className="text-[#b8e2b0] w-8 h-8" />
+          <div className="w-16 h-16 bg-teal/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-teal/20">
+            <Shield className="text-teal w-8 h-8" />
           </div>
-          <h2 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">
+          <h2 className="text-3xl font-black text-ice mb-2 tracking-tight">
             {isLogin ? "Welcome Back" : "Register Now"}
           </h2>
-          <p className="text-slate-400 font-black uppercase text-[10px] tracking-[0.3em]">
+          <p className="text-slate font-black uppercase text-[10px] tracking-[0.3em]">
             {role} Portal
           </p>
         </div>
 
-        <div className="flex p-1.5 bg-slate-50 rounded-2xl mb-10 border border-slate-100">
+
+        <div className="flex p-1.5 bg-ice/5 rounded-2xl mb-10 border border-ice/10">
           {["patient", "hospital", "admin"].map((r) => (
             <button
               key={r}
@@ -586,7 +587,7 @@ const AuthPage = ({ setUser }) => {
               className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none focus:ring-4 focus:ring-[#b8e2b0]/10 transition-all font-bold"
             />
           </div>
-          <button className="w-full bg-[#b8e2b0] text-emerald-900 py-5 rounded-2xl font-black text-lg shadow-lg hover:bg-emerald-900 hover:text-white transition-all cursor-pointer">
+          <button className="w-full btn-teal py-5 text-lg shadow-lg">
             {isLogin ? "Login Now" : "Register Account"}
           </button>
         </form>
@@ -691,19 +692,19 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
               ))}
             </select>
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Inventory in <span className="text-[#b8e2b0] italic">{userLocation === "All Operations" ? "Global Network" : userLocation}.</span>
+          <h2 className="text-4xl md:text-5xl font-black text-ice tracking-tight leading-tight">
+            Inventory in <span className="text-teal italic">{userLocation === "All Operations" ? "Global Network" : userLocation}.</span>
           </h2>
         </div>
 
-        <div className="flex items-center bg-slate-50 border border-slate-100 rounded-2xl p-2 w-full lg:w-[400px]">
-          <Search className="text-slate-300 w-5 h-5 mx-4" />
+        <div className="flex items-center bg-ice/5 border border-ice/10 rounded-2xl p-2 w-full lg:w-[400px]">
+          <Search className="text-slate/40 w-5 h-5 mx-4" />
           <input
             type="text"
             placeholder="Search within node..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="bg-transparent border-none outline-none font-bold text-sm flex-1 py-3"
+            className="bg-transparent border-none outline-none font-bold text-sm flex-1 py-3 text-ice"
           />
           {searchQuery && (
             <button onClick={() => setSearchQuery("")} className="mr-4 text-slate-300 hover:text-slate-900">
@@ -725,7 +726,7 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               whileHover={{ y: -12 }}
-              className="card-premium group"
+              className="glass-card group overflow-hidden border-teal/10"
             >
               <div className="h-64 relative overflow-hidden">
                 <img
@@ -744,7 +745,7 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">
                       {h.type}
                     </p>
-                    <h3 className="text-2xl font-black text-slate-900 tracking-tight leading-none italic">
+                    <h3 className="text-2xl font-black text-ice tracking-tight leading-none italic">
                       {h.name}
                     </h3>
                   </div>
@@ -1284,7 +1285,7 @@ function App() {
             path="/patient"
             element={
               user?.role === "patient" ? (
-                <div className="bg-slate-50 text-slate-900 min-h-screen">
+                <div className="bg-[#0A1628] text-ice min-h-screen pt-20">
                   <PatientPortal
                     hospitals={hospitals}
                     setHospitals={setHospitals}
@@ -1302,7 +1303,7 @@ function App() {
             path="/hospital"
             element={
               user?.role === "hospital" ? (
-                <div className="bg-slate-50 text-slate-900 min-h-screen">
+                <div className="bg-[#0A1628] text-ice min-h-screen pt-20">
                   <HospitalPortal
                     bookings={bookings}
                     hospitals={hospitals}
@@ -1318,7 +1319,7 @@ function App() {
             path="/admin"
             element={
               user?.role === "admin" ? (
-                <div className="bg-slate-50 text-slate-900 min-h-screen">
+                <div className="bg-[#0A1628] text-ice min-h-screen pt-20">
                   <AdminPortal
                     bookings={bookings}
                     hospitals={hospitals}
