@@ -699,39 +699,55 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
                           value={bookingDetails.patientName}
                           onChange={(e) => setBookingDetails({ ...bookingDetails, patientName: e.target.value })}
                           className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                          placeholder="e.g. Rahul Sharma"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Age</label>
-                        <input
-                          required
-                          type="number"
-                          value={bookingDetails.age}
-                          onChange={(e) => setBookingDetails({ ...bookingDetails, age: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
-                        />
+                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Age / Gender</label>
+                        <div className="flex gap-4">
+                          <input
+                            required
+                            type="number"
+                            value={bookingDetails.age}
+                            onChange={(e) => setBookingDetails({ ...bookingDetails, age: e.target.value })}
+                            className="w-24 bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                            placeholder="Age"
+                          />
+                          <select
+                            value={bookingDetails.gender}
+                            onChange={(e) => setBookingDetails({ ...bookingDetails, gender: e.target.value })}
+                            className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold appearance-none cursor-pointer"
+                          >
+                            <option>Male</option>
+                            <option>Female</option>
+                            <option>Other</option>
+                          </select>
+                        </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Contact</label>
+                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Contact Number</label>
                         <input
                           required
+                          type="tel"
                           value={bookingDetails.phone}
                           onChange={(e) => setBookingDetails({ ...bookingDetails, phone: e.target.value })}
                           className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                          placeholder="+91 XXXXX XXXXX"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Reason</label>
+                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Reason for Admission</label>
                         <input
                           required
                           value={bookingDetails.reason}
                           onChange={(e) => setBookingDetails({ ...bookingDetails, reason: e.target.value })}
                           className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                          placeholder="Short description..."
                         />
                       </div>
                       <div className="md:col-span-2 mt-8 flex gap-4">
-                        <button type="button" onClick={() => setSelectedBed(null)} className="flex-1 py-5 border-2 border-slate-100 rounded-2xl font-black text-slate-400">Back</button>
-                        <button type="submit" className="flex-[2] py-5 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black shadow-lg">Confirm Reservation</button>
+                        <button type="button" onClick={() => setSelectedBed(null)} className="flex-1 py-5 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-slate-50 transition-all cursor-pointer">Back</button>
+                        <button type="submit" className="flex-[2] py-5 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black shadow-lg hover:bg-emerald-900 hover:text-white transition-all cursor-pointer">Confirm Reservation</button>
                       </div>
                     </form>
                   </motion.div>
@@ -831,10 +847,14 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
                           <h4 className="text-2xl font-black text-slate-900">{b.patientName} <span className="text-slate-300 font-bold ml-2 text-lg">({b.age}y)</span></h4>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-8 p-8 bg-slate-50 rounded-[32px] border border-slate-100">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-slate-50 rounded-[32px] border border-slate-100">
                         <div>
                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Reserved Slot</p>
                           <span className="px-4 py-2 bg-emerald-950 text-[#b8e2b0] rounded-xl text-xs font-black uppercase">{b.bedId}</span>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Contact</p>
+                          <p className="text-sm font-black text-slate-900">{b.phone}</p>
                         </div>
                         <div>
                           <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Clinical Note</p>
@@ -1003,6 +1023,23 @@ function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [user]);
+
+  // Sync state across tabs
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === "medstay_bookings") {
+        setBookings(JSON.parse(e.newValue || "[]"));
+      }
+      if (e.key === "medstay_hospitals") {
+        setHospitals(JSON.parse(e.newValue || JSON.stringify(INITIAL_HOSPITALS)));
+      }
+      if (e.key === "medstay_user") {
+        setUser(JSON.parse(e.newValue || "null"));
+      }
+    };
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
 
   return (
     <Router>
