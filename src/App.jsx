@@ -548,7 +548,7 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-20">
+    <div className="max-w-7xl mx-auto px-6 py-20 pb-40">
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-16">
         <div>
           <div className="flex items-center gap-2 bg-emerald-50 text-emerald-700 px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit border border-emerald-100">
@@ -768,64 +768,84 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
   const currentHospital = hospitals.find(h => h.name === user?.name) || hospitals[0];
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-20">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-16">
-        <div>
-          <div className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit">
-            Hospital Panel
+    <div className="max-w-7xl mx-auto px-6 py-20 pb-40">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 bg-slate-900 p-12 rounded-[56px] text-white relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-[#b8e2b0]/10 blur-[120px] rounded-full" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 bg-[#b8e2b0]/20 text-[#b8e2b0] px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit border border-[#b8e2b0]/20">
+            Node: Terminal-EX-01
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Terminal: <span className="text-[#b8e2b0] italic">{user?.name}</span>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight italic">
+            {user?.name}
           </h2>
+          <p className="text-slate-400 font-bold mt-2">Inventory Management Console</p>
         </div>
 
-        <div className="flex gap-4">
-          <div className="bg-emerald-50 p-6 rounded-3xl border border-emerald-100">
-            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Live Bookings</p>
-            <p className="text-3xl font-black text-emerald-700">{hospitalBookings.length}</p>
+        <div className="flex gap-6 relative z-10">
+          <div className="glass-dark p-8 rounded-[32px] min-w-[160px]">
+            <p className="text-[10px] font-black text-[#b8e2b0] uppercase tracking-widest mb-2">Active</p>
+            <p className="text-5xl font-black tracking-tighter">{hospitalBookings.length}</p>
           </div>
-          <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Capacity</p>
-            <p className="text-3xl font-black text-slate-900">
+          <div className="glass-dark p-8 rounded-[32px] min-w-[160px]">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Capacity</p>
+            <p className="text-5xl font-black tracking-tighter">
               {currentHospital.wards.reduce((acc, w) => acc + w.beds.length, 0)}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
         <div className="lg:col-span-2">
-          <h3 className="text-2xl font-black text-slate-900 mb-8 italic">Incoming Reservations</h3>
-          <div className="space-y-6">
+          <div className="flex items-center justify-between mb-10">
+            <h3 className="text-3xl font-black text-slate-900 italic tracking-tight">Incoming Queue</h3>
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 bg-[#b8e2b0] rounded-full animate-ping" />
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Live Syncing</p>
+            </div>
+          </div>
+
+          <div className="space-y-8">
             {hospitalBookings.length === 0 ? (
-              <div className="bg-slate-50 p-12 rounded-[40px] text-center border-2 border-dashed border-slate-200">
-                <p className="text-slate-400 font-bold">No active bookings for your clinic yet.</p>
+              <div className="bg-slate-50 p-20 rounded-[56px] text-center border-4 border-dashed border-slate-100">
+                <p className="text-slate-400 font-black uppercase text-xs tracking-widest">System standby...</p>
+                <p className="text-slate-300 font-bold mt-2">Waiting for network requests.</p>
               </div>
             ) : (
               hospitalBookings.map((b) => (
-                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} key={b.id} className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-xl hover:shadow-2xl transition-all">
-                  <div className="flex flex-col md:flex-row justify-between gap-8">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  key={b.id}
+                  className="card-premium p-10 group relative isolate"
+                >
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50/50 rounded-bl-full -z-10 transition-all group-hover:bg-[#b8e2b0]/20" />
+                  <div className="flex flex-col md:flex-row justify-between gap-10">
                     <div className="flex-1">
-                      <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center"><User className="w-6 h-6 text-slate-400" /></div>
+                      <div className="flex items-center gap-5 mb-8">
+                        <div className="w-16 h-16 bg-slate-900 rounded-[20px] flex items-center justify-center text-[#b8e2b0] font-black text-xl shadow-xl">
+                          {b.patientName[0]}
+                        </div>
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient</p>
-                          <h4 className="text-xl font-black text-slate-900">{b.patientName} (Age: {b.age})</h4>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Patient Identity</p>
+                          <h4 className="text-2xl font-black text-slate-900">{b.patientName} <span className="text-slate-300 font-bold ml-2 text-lg">({b.age}y)</span></h4>
                         </div>
                       </div>
-                      <div className="grid grid-cols-2 gap-6 p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                      <div className="grid grid-cols-2 gap-8 p-8 bg-slate-50 rounded-[32px] border border-slate-100">
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Bed Slot</p>
-                          <p className="text-sm font-black text-emerald-700">{b.bedId}</p>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Reserved Slot</p>
+                          <span className="px-4 py-2 bg-emerald-950 text-[#b8e2b0] rounded-xl text-xs font-black uppercase">{b.bedId}</span>
                         </div>
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Condition</p>
-                          <p className="text-sm font-black text-slate-900 italic">"{b.reason}"</p>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Clinical Note</p>
+                          <p className="text-sm font-bold text-slate-600 italic">"{b.reason}"</p>
                         </div>
                       </div>
                     </div>
-                    <div className="flex flex-col justify-center gap-4 border-l-0 md:border-l border-slate-100 pl-0 md:pl-10">
-                      <button className="px-8 py-4 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black text-xs hover:bg-emerald-900 hover:text-white transition-all">Confirm Check-in</button>
+                    <div className="flex flex-col justify-center gap-4">
+                      <button className="px-10 py-5 bg-[#b8e2b0] text-emerald-900 rounded-[22px] font-black text-xs uppercase tracking-widest hover:bg-emerald-900 hover:text-white transition-all shadow-xl shadow-emerald-900/5">
+                        Confirm Entry
+                      </button>
                     </div>
                   </div>
                 </motion.div>
@@ -835,19 +855,29 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
         </div>
 
         <div>
-          <h3 className="text-2xl font-black text-slate-900 mb-8 italic">Ward Status</h3>
-          <div className="space-y-6">
+          <h3 className="text-3xl font-black text-slate-900 mb-10 italic tracking-tight">Ward Metrics</h3>
+          <div className="space-y-8">
             {currentHospital.wards.map((w, idx) => (
-              <div key={idx} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-lg">
-                <div className="flex justify-between items-center mb-6">
-                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">{w.name}</h4>
-                  <span className="text-[10px] font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">{w.beds.filter(b => b.status === "available").length} / {w.beds.length} Available</span>
+              <div key={idx} className="card-premium p-10 bg-slate-50/50">
+                <div className="flex justify-between items-center mb-8">
+                  <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">{w.name}</h4>
+                  <span className="text-[12px] font-black text-emerald-900 bg-[#b8e2b0] px-4 py-1.5 rounded-full border border-emerald-900/10">
+                    {w.beds.filter(b => b.status === "available").length} Left
+                  </span>
                 </div>
-                <div className="h-2 bg-slate-50 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#b8e2b0]"
-                    style={{ width: `${(w.beds.filter(b => b.status === "available").length / w.beds.length) * 100}%` }}
-                  />
+                <div className="relative pt-1">
+                  <div className="overflow-hidden h-3 text-xs flex rounded-full bg-slate-200">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${(w.beds.filter(b => b.status === "available").length / w.beds.length) * 100}%` }}
+                      transition={{ duration: 1.5, ease: "easeOut" }}
+                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-emerald-600 to-[#b8e2b0]"
+                    />
+                  </div>
+                </div>
+                <div className="mt-4 flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                  <span>Occupancy</span>
+                  <span>{Math.round((w.beds.filter(b => b.status === "occupied").length / w.beds.length) * 100)}%</span>
                 </div>
               </div>
             ))}
@@ -861,59 +891,92 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
 const AdminPortal = ({ bookings, hospitals }) => {
   return (
     <div className="max-w-7xl mx-auto px-6 py-20 pb-40">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-16">
-        <div>
-          <div className="flex items-center gap-2 bg-emerald-950 text-[#b8e2b0] px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit">
-            Network Administrator
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 bg-[#b8e2b0] p-16 rounded-[64px] relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 bg-emerald-950 text-[#b8e2b0] px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 w-fit shadow-xl">
+            Network Operations Command
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
-            Global <span className="text-[#b8e2b0] italic">Operations</span> Center
+          <h2 className="text-6xl md:text-7xl font-black text-emerald-950 tracking-tighter leading-tight italic">
+            Global <br /> <span className="opacity-40">Intelligence</span>
           </h2>
         </div>
 
-        <div className="flex gap-6">
-          <div className="bg-slate-900 p-8 rounded-[32px] text-white">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Bookings</p>
-            <p className="text-4xl font-black">{bookings.length}</p>
-          </div>
-          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Active Hospitals</p>
-            <p className="text-4xl font-black text-slate-900">{hospitals.length}</p>
-          </div>
+        <div className="flex gap-8 relative z-10">
+          <motion.div whileHover={{ scale: 1.05 }} className="bg-emerald-950 p-10 rounded-[40px] text-white shadow-2xl min-w-[200px]">
+            <p className="text-[10px] font-black text-[#b8e2b0] uppercase tracking-[0.3em] mb-3">Network Reservations</p>
+            <p className="text-6xl font-black tracking-tighter italic">{bookings.length}</p>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} className="bg-white p-10 rounded-[40px] shadow-2xl min-w-[200px] border border-emerald-100">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-3">Live Nodes</p>
+            <p className="text-6xl font-black text-slate-900 tracking-tighter italic">{hospitals.length}</p>
+          </motion.div>
         </div>
       </div>
 
-      <div className="bg-white border border-slate-100 rounded-[48px] shadow-2xl overflow-hidden p-12">
-        <h3 className="text-2xl font-black text-slate-900 mb-10 italic">All Network Reservations</h3>
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-slate-100">
-              <th className="text-left py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient</th>
-              <th className="text-left py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Hospital</th>
-              <th className="text-left py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Bed Slot</th>
-              <th className="text-left py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Time</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-50">
-            {bookings.length === 0 ? (
-              <tr><td colSpan="4" className="py-20 text-center text-slate-400 font-bold">No active data.</td></tr>
-            ) : (
-              bookings.map((b) => (
-                <tr key={b.id} className="hover:bg-slate-50/50 transition-colors group">
-                  <td className="py-8">
-                    <div className="flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center font-black text-xs">{b.patientName[0]}</div>
-                      <span className="font-black text-slate-900">{b.patientName}</span>
-                    </div>
-                  </td>
-                  <td className="py-8 font-bold text-slate-500">{b.hospitalName}</td>
-                  <td className="py-8"><span className="bg-slate-100 px-4 py-2 rounded-xl text-xs font-black text-slate-900 uppercase">{b.bedId}</span></td>
-                  <td className="py-8 text-xs font-bold text-slate-400">{b.timestamp}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className="card-premium overflow-hidden p-16 isolate relative">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#b8e2b0] to-transparent" />
+        <div className="flex items-center justify-between mb-16">
+          <h3 className="text-3xl font-black text-slate-900 italic tracking-tight">Ledger Operations</h3>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 bg-slate-50 px-6 py-3 rounded-2xl border border-slate-100">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">System Healthy</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-slate-100">
+                <th className="text-left pb-10 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Patient Entity</th>
+                <th className="text-left pb-10 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Node Location</th>
+                <th className="text-left pb-10 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Slot ID</th>
+                <th className="text-left pb-10 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Timeline</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-50">
+              {bookings.length === 0 ? (
+                <tr><td colSpan="4" className="py-32 text-center text-slate-300 font-bold italic">No active ledger entries...</td></tr>
+              ) : (
+                bookings.map((b) => (
+                  <motion.tr
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    key={b.id}
+                    className="hover:bg-slate-50 transition-colors group"
+                  >
+                    <td className="py-10">
+                      <div className="flex items-center gap-5">
+                        <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-sm shadow-lg group-hover:rotate-6 transition-transform">
+                          {b.patientName[0]}
+                        </div>
+                        <div>
+                          <p className="font-black text-slate-900 text-lg leading-tight">{b.patientName}</p>
+                          <p className="text-[10px] font-bold text-slate-400">{b.phone}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-10">
+                      <p className="font-black text-slate-600 bg-slate-100 px-4 py-2 rounded-xl text-xs w-fit group-hover:bg-[#b8e2b0] group-hover:text-emerald-900 transition-colors uppercase">
+                        {b.hospitalName}
+                      </p>
+                    </td>
+                    <td className="py-10">
+                      <span className="font-black text-emerald-700 bg-emerald-50 px-5 py-2.5 rounded-2xl text-[10px] uppercase border border-emerald-100">
+                        {b.bedId}
+                      </span>
+                    </td>
+                    <td className="py-10 text-xs font-black text-slate-400 group-hover:text-slate-900 transition-colors">
+                      {b.timestamp}
+                    </td>
+                  </motion.tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
