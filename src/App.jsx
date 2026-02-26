@@ -234,158 +234,237 @@ const Landing = () => {
   };
 
   return (
-    <div
-      className="min-h-[calc(100vh-80px)] bg-white relative overflow-hidden flex flex-col items-center justify-center p-6"
-      onMouseMove={handleMouseMove}
-    >
-      {/* 3D Depth Background Elements */}
-      <div className="absolute top-[-20%] right-[-10%] w-[1000px] h-[1000px] bg-[#b8e2b0]/10 blur-[180px] rounded-full -z-10 animate-pulse" />
-      <div className="absolute bottom-[-15%] left-[-10%] w-[800px] h-[800px] bg-emerald-100/30 blur-[150px] rounded-full -z-10" />
+    <div className="bg-white scroll-smooth" onMouseMove={handleMouseMove}>
+      {/* Hero Section */}
+      <section className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-6 pt-32 lg:pt-0">
+        <div className="absolute top-[-20%] right-[-10%] w-[1200px] h-[1200px] bg-[#b8e2b0]/15 blur-[200px] rounded-full -z-10 animate-pulse" />
+        <div className="absolute bottom-[-15%] left-[-10%] w-[1000px] h-[1000px] bg-emerald-100/40 blur-[180px] rounded-full -z-10" />
 
-      {/* Floating 3D Decorative Orbs */}
-      <motion.div
-        animate={{ y: [-20, 20, -20], x: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }}
-        className="absolute top-40 left-[15%] w-16 h-16 bg-[#b8e2b0]/40 rounded-full blur-xl -z-5"
-      />
-      <motion.div
-        animate={{ y: [0, -30, 0], scale: [1, 1.2, 1] }}
-        transition={{ repeat: Infinity, duration: 10, ease: "easeInOut" }}
-        className="absolute bottom-40 right-[15%] w-24 h-24 bg-emerald-200/30 rounded-full blur-2xl -z-5"
-      />
-
-      <div className="max-w-7xl mx-auto w-full">
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24 relative">
-          {/* Left Side: Text Content */}
-          <div className="flex-1 text-center lg:text-left z-10">
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="bg-emerald-50 text-emerald-900 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 w-fit mx-auto lg:mx-0 border border-emerald-100 shadow-sm pista-glow"
-            >
-              Standardizing Health Tech
-            </motion.div>
-
-            <h1 className="text-6xl md:text-8xl xl:text-9xl font-black text-slate-900 leading-[0.9] mb-10 tracking-tighter">
-              Heal <br />
-              <span className="text-[#b8e2b0] italic drop-shadow-sm">Directly.</span>
-            </h1>
-
-            <p className="max-w-xl text-slate-500 font-bold text-xl mb-14 leading-relaxed tracking-tight mx-auto lg:mx-0">
-              India's first 3D-enabled hospital inventory network. Check live
-              ICU availability and secure admissions with futuristic transparency.
-            </p>
-
-            <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
-              <Link
-                to="/auth?role=patient"
-                className="px-12 py-6 bg-[#b8e2b0] text-emerald-900 rounded-[24px] font-black text-xl shadow-2xl shadow-primary/30 hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-2 flex items-center justify-center gap-4 group pista-glow"
+        <div className="max-w-7xl mx-auto w-full relative z-10">
+          <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-32 relative">
+            <div className="flex-1 text-center lg:text-left">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-emerald-950 text-[#b8e2b0] px-8 py-3 rounded-full text-[12px] font-black uppercase tracking-[0.4em] mb-12 w-fit mx-auto lg:mx-0 shadow-2xl shadow-emerald-950/20"
               >
-                Find Bed <ArrowRight className="group-hover:translate-x-2 transition-transform" />
-              </Link>
-              <Link
-                to="/auth?role=hospital"
-                className="px-12 py-6 bg-white text-slate-900 border-2 border-slate-100 rounded-[24px] font-black text-xl hover:border-primary hover:bg-primary/5 transition-all transform hover:-translate-y-2 shadow-xl shadow-slate-900/5"
-              >
-                Register Clinic
-              </Link>
+                The Future of Healthcare Logistics
+              </motion.div>
+
+              <h1 className="text-7xl md:text-9xl xl:text-[11rem] font-black text-slate-900 leading-[0.85] mb-14 tracking-tighter">
+                Heal <br />
+                <span className="text-[#b8e2b0] italic drop-shadow-2xl">Ultra.</span>
+              </h1>
+
+              <p className="max-w-2xl text-slate-500 font-bold text-2xl mb-16 leading-relaxed tracking-tight mx-auto lg:mx-0">
+                The world's most advanced hospital inventory network.
+                Experience <span className="text-slate-900">Zero-Latency admissions</span> and real-time 3D bed tracking.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-8 justify-center lg:justify-start">
+                <Link
+                  to="/auth?role=patient"
+                  className="px-16 py-8 bg-[#b8e2b0] text-emerald-900 rounded-[32px] font-black text-2xl shadow-[0_30px_60px_-15px_rgba(184,226,176,0.5)] hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-3 flex items-center justify-center gap-4 group"
+                >
+                  Quick Admission <ArrowRight className="w-8 h-8 group-hover:translate-x-3 transition-transform" />
+                </Link>
+                <Link
+                  to="/auth?role=hospital"
+                  className="px-16 py-8 bg-white text-slate-900 border-4 border-slate-50 rounded-[32px] font-black text-2xl hover:border-[#b8e2b0] transition-all transform hover:-translate-y-3 shadow-xl shadow-slate-900/5 flex items-center justify-center"
+                >
+                  Medical Partnership
+                </Link>
+              </div>
+
+              <div className="mt-24 flex flex-wrap gap-14 justify-center lg:justify-start items-center grayscale opacity-60">
+                <div className="flex items-center gap-3"><Users className="w-6 h-6" /><span className="text-xs font-black uppercase tracking-widest">50k+ Trust</span></div>
+                <div className="flex items-center gap-3"><Shield className="w-6 h-6" /><span className="text-xs font-black uppercase tracking-widest">ISO 27001 Certified</span></div>
+                <div className="flex items-center gap-3"><Activity className="w-6 h-6" /><span className="text-xs font-black uppercase tracking-widest">24/7 Live Monitoring</span></div>
+              </div>
             </div>
 
-            <div className="mt-20 flex flex-wrap gap-10 justify-center lg:justify-start items-center">
-              <div className="flex -space-x-4">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-slate-100 shadow-md">
-                    <img src={`https://i.pravatar.cc/150?u=${i + 10}`} className="w-full h-full rounded-full" />
+            <div className="flex-1 w-full max-w-3xl perspective-2000 hidden lg:block">
+              <motion.div
+                style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+                className="relative group h-[700px]"
+              >
+                <div className="rounded-[80px] overflow-hidden shadow-[0_80px_160px_rgba(0,0,0,0.2)] border-[16px] border-white relative w-full h-full">
+                  <img
+                    src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
+                    alt="Futuristic Hospital"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/60 to-transparent" />
+                </div>
+
+                <motion.div
+                  style={{ translateZ: 150 }}
+                  className="absolute -bottom-16 -right-16 bg-white p-12 rounded-[48px] shadow-[0_50px_100px_rgba(0,0,0,0.1)] border border-slate-50 flex flex-col gap-6"
+                >
+                  <Activity className="w-16 h-16 text-[#b8e2b0] animate-pulse" />
+                  <div>
+                    <p className="text-[12px] font-black text-slate-400 uppercase tracking-widest mb-1">Network Capacity</p>
+                    <p className="text-5xl font-black text-slate-900 tracking-tighter">98% Efficient</p>
+                  </div>
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Philosophy Section */}
+      <section className="py-60 bg-slate-900 overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#b8e2b0] rounded-full blur-[300px]" />
+        </div>
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <motion.h2
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-7xl font-black text-white mb-20 tracking-tighter italic leading-tight"
+          >
+            "Healthcare shouldn't be a search. <br /> It should be a <span className="text-[#b8e2b0]">Certainty.</span>"
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
+            {[
+              { title: "Transparency", desc: "Real-time ledger access for every hospital bed in the network. No hidden costs or queues.", icon: Shield },
+              { title: "Standardization", desc: "Uniform care quality and pricing across all partner clinics. A truly national standard.", icon: IndianRupee },
+              { title: "Empathy-First", desc: "We focus on saving time so you can focus on healing. Zero friction from day one.", icon: Heart },
+            ].map((item, i) => (
+              <motion.div
+                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                key={i}
+                className="flex flex-col items-center"
+              >
+                <div className="w-24 h-24 bg-[#b8e2b0]/20 rounded-[32px] flex items-center justify-center text-[#b8e2b0] mb-12 border border-[#b8e2b0]/30">
+                  <item.icon className="w-10 h-10" />
+                </div>
+                <h3 className="text-3xl font-black text-white mb-6 uppercase tracking-tight">{item.title}</h3>
+                <p className="text-slate-400 font-bold text-lg leading-relaxed">{item.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* How it Works Section */}
+      <section className="py-60 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex flex-col lg:flex-row items-end justify-between mb-40 gap-10">
+            <div className="max-w-3xl">
+              <p className="text-[12px] font-black text-slate-400 uppercase tracking-[0.5em] mb-8">The Protocol</p>
+              <h2 className="text-7xl md:text-8xl font-black text-slate-900 tracking-tighter leading-tight italic">
+                Admission in <br /> <span className="text-[#b8e2b0]">3 Pulse Beats.</span>
+              </h2>
+            </div>
+            <p className="max-w-md text-slate-400 font-bold text-xl leading-relaxed mb-4">
+              We've engineered a clinical booking experience that rivals the simplicity of modern digital banking.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+            {[
+              { step: "01", title: "Live Discovery", desc: "Browse real-time ICU and General ward maps across 500+ clinics.", img: "https://images.unsplash.com/photo-1576091160550-217359f4ecf8?auto=format&fit=crop&q=80&w=800" },
+              { step: "02", title: "Instant Select", desc: "Lock your preferred bed slot with a single click. No wait times.", img: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800" },
+              { step: "03", title: "Swift Entry", desc: "Digital verification at the hospital gate. Entry within 2 minutes.", img: "https://images.unsplash.com/photo-1586773860418-d372a6765b45?auto=format&fit=crop&q=80&w=800" },
+            ].map((item, i) => (
+              <motion.div
+                whileHover={{ y: -20 }}
+                key={i}
+                className="group relative overflow-hidden rounded-[56px] shadow-2xl h-[600px]"
+              >
+                <img src={item.img} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt={item.title} />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent p-12 flex flex-col justify-end">
+                  <p className="text-8xl font-black text-[#b8e2b0]/30 mb-6 drop-shadow-2xl">{item.step}</p>
+                  <h3 className="text-4xl font-black text-white mb-4 italic uppercase">{item.title}</h3>
+                  <p className="text-slate-200 font-bold leading-relaxed">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Technology Section */}
+      <section className="py-60 bg-emerald-50">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
+            <div className="relative">
+              <div className="absolute -top-20 -left-20 w-40 h-40 bg-[#b8e2b0]/20 rounded-full blur-3xl" />
+              <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=1200" className="rounded-[80px] shadow-2xl w-full translate-x-4 translate-y-4" alt="Tech" />
+              <div className="absolute bottom-12 -right-12 bg-white p-12 rounded-[48px] shadow-2xl max-w-[280px]">
+                <Activity className="text-[#b8e2b0] w-12 h-12 mb-6" />
+                <p className="text-slate-400 font-black uppercase text-[10px] tracking-widest mb-1">Latency</p>
+                <p className="text-4xl font-black text-slate-900 italic">0.02ms</p>
+              </div>
+            </div>
+            <div>
+              <p className="text-[12px] font-black text-slate-400 uppercase tracking-[0.5em] mb-10">The Architecture</p>
+              <h2 className="text-6xl md:text-8xl font-black text-slate-900 mb-14 tracking-tighter italic leading-none">
+                Clinical Grade <br /> <span className="text-emerald-700 underline decoration-[#b8e2b0]">Intelligence.</span>
+              </h2>
+              <div className="space-y-12">
+                {[
+                  { title: "Immutable Ledger", desc: "Every bed booking is carved into our cryptographic ledger, ensuring zero double-bookings or priority skips." },
+                  { title: "3D Asset Mapping", desc: "Visualize actual floor plans and bed locations via our spatial mapping engine before you arrive." },
+                  { title: "Live Oxygen Sync", desc: "Network-wide tracking of critical resources like ventilators and oxygen supply nodes." },
+                ].map((feat, i) => (
+                  <div key={i} className="flex gap-8 group">
+                    <div className="w-1 h-20 bg-emerald-100 group-hover:bg-[#b8e2b0] transition-colors" />
+                    <div>
+                      <h4 className="text-2xl font-black text-slate-900 mb-4">{feat.title}</h4>
+                      <p className="text-slate-500 font-bold leading-relaxed">{feat.desc}</p>
+                    </div>
                   </div>
                 ))}
               </div>
-              <div>
-                <p className="text-lg font-black text-slate-900 leading-none">24.5k+</p>
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mt-1">Verified Patients</p>
-              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Right Side: 3D Interactive Visual */}
-          <div className="flex-1 w-full max-w-2xl perspective-1000">
-            <motion.div
-              style={{
-                rotateX: rotateX,
-                rotateY: rotateY,
-                transformStyle: "preserve-3d",
-              }}
-              className="relative cursor-none group"
-            >
-              {/* Main Image with Depth */}
-              <div className="rounded-[64px] overflow-hidden shadow-[0_50px_100px_rgba(0,0,0,0.15)] border-[12px] border-white relative group-hover:shadow-[0_80px_120px_rgba(184,226,176,0.3)] transition-all duration-700">
-                <img
-                  src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1200"
-                  className="w-full aspect-[4/5] object-cover group-hover:scale-110 transition-transform duration-1000 ease-out"
-                  alt="3D Interactive Medical Facility"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/40 via-transparent to-transparent opacity-60" />
-
-                {/* Floating 3D Elements inside the frame (Z-translated) */}
-                <motion.div
-                  initial={{ translateZ: 50 }}
-                  className="absolute inset-0 flex items-center justify-center"
-                >
-                  <div className="w-full h-full bg-primary/10 backdrop-blur-[2px] pointer-events-none" />
-                </motion.div>
+      {/* Stats Matrix */}
+      <section className="py-40 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12">
+            {[
+              { val: "940+", label: "Hospitals Unified", icon: Building2 },
+              { val: "2.5M", label: "Lives Touched", icon: Users },
+              { val: "100%", label: "Transparency Score", icon: Shield },
+              { val: "avg. 3s", label: "Booking Latency", icon: Activity },
+            ].map((stat, i) => (
+              <div key={i} className="p-12 border-4 border-slate-50 rounded-[56px] hover:border-[#b8e2b0] transition-colors">
+                <stat.icon className="w-10 h-10 text-[#b8e2b0] mb-8" />
+                <h5 className="text-5xl font-black text-slate-900 mb-2 italic tracking-tighter">{stat.val}</h5>
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
               </div>
-
-              {/* Float Card 1: Live Pulse */}
-              <motion.div
-                style={{ translateZ: 100 }}
-                className="absolute -bottom-10 -right-10 bg-white p-8 rounded-[32px] shadow-2xl border border-emerald-50 flex items-center gap-6"
-              >
-                <div className="relative">
-                  <Activity className="w-10 h-10 text-[#b8e2b0]" />
-                  <div className="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full animate-ping" />
-                </div>
-                <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Global Status</p>
-                  <p className="text-2xl font-black text-slate-900 tracking-tight">Active Node</p>
-                </div>
-              </motion.div>
-
-              {/* Float Card 2: Interactive Badge */}
-              <motion.div
-                style={{ translateZ: 150 }}
-                className="absolute top-20 -left-16 bg-emerald-950 text-[#b8e2b0] p-8 rounded-[32px] shadow-2xl max-w-[200px]"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <Shield className="w-6 h-6 fill-[#b8e2b0]" />
-                  <p className="text-xs font-black uppercase tracking-widest">3D Secured</p>
-                </div>
-                <p className="text-sm font-bold text-white/60 leading-relaxed italic">Immutable inventory ledger tracking every bed in real-time.</p>
-              </motion.div>
-            </motion.div>
+            ))}
           </div>
         </div>
+      </section>
 
-        {/* Premium Feature Matrix */}
-        <div className="mt-40 grid grid-cols-2 lg:grid-cols-4 gap-10">
-          {[
-            { label: "Partner Reach", value: "480+", icon: Building2 },
-            { label: "Beds Unified", value: "1.2k", icon: Bed },
-            { label: "ICU Pulse", value: "320", icon: Activity },
-            { label: "Deployment", value: "Live", icon: CheckCircle2 },
-          ].map((stat, i) => (
-            <motion.div
-              whileHover={{ y: -15, scale: 1.05 }}
-              key={i}
-              className="p-10 bg-white rounded-[40px] border border-slate-100 shadow-xl shadow-slate-900/[0.02] hover:shadow-primary/20 hover:border-primary/30 transition-all duration-500"
-            >
-              <div className="bg-emerald-50 w-14 h-14 rounded-2xl flex items-center justify-center mb-6">
-                <stat.icon className="w-7 h-7 text-[#b8e2b0]" />
-              </div>
-              <p className="text-4xl font-black text-slate-900 mb-2 tracking-tighter italic">{stat.value}</p>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">{stat.label}</p>
-            </motion.div>
-          ))}
+      {/* Final CTA */}
+      <section className="py-60 bg-emerald-950 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+          <div className="absolute -bottom-1/2 -right-1/2 w-[1000px] h-[1000px] bg-[#b8e2b0] rounded-full blur-[300px]" />
         </div>
-      </div>
+        <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
+          <h2 className="text-7xl md:text-9xl font-black text-white mb-20 tracking-tighter italic leading-[0.85]">
+            Ready to heal <br /> <span className="text-[#b8e2b0]">faster?</span>
+          </h2>
+          <div className="flex flex-col sm:flex-row gap-10 justify-center">
+            <Link to="/auth?role=patient" className="px-20 py-10 bg-[#b8e2b0] text-emerald-900 rounded-[40px] font-black text-2xl shadow-3xl hover:bg-white transition-all transform hover:-translate-y-4">
+              Book a Bed Now
+            </Link>
+            <Link to="/auth?role=admin" className="px-20 py-10 bg-emerald-900 text-[#b8e2b0] border-4 border-[#b8e2b0]/30 rounded-[40px] font-black text-2xl hover:bg-[#b8e2b0]/10 transition-all transform hover:-translate-y-4">
+              Admin Access
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 };
