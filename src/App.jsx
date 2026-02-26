@@ -42,7 +42,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 // --- Mock Data ---
-const HOSPITALS = [
+const INITIAL_HOSPITALS = [
   {
     id: 1,
     name: "Medicity Super Specialty",
@@ -105,24 +105,6 @@ const HOSPITALS = [
   },
 ];
 
-const RECENT_BOOKINGS = [
-  {
-    id: 1,
-    patient: "Rahul S.",
-    hospital: "Medicity",
-    bed: "ICU-12",
-    time: "2m ago",
-    status: "confirmed",
-  },
-  {
-    id: 2,
-    patient: "Anjali M.",
-    hospital: "Astra Care",
-    bed: "VIP-04",
-    time: "15m ago",
-    status: "pending",
-  },
-];
 
 // --- Shared Elements ---
 
@@ -176,6 +158,7 @@ const Navbar = ({ user, setUser }) => {
                 <button
                   onClick={() => {
                     setUser(null);
+                    localStorage.removeItem("medstay_user");
                     navigate("/");
                   }}
                   className="text-slate-300 hover:text-red-500 transition-colors"
@@ -418,15 +401,18 @@ const AuthPage = ({ setUser }) => {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setUser({
+    const mockUser = {
+      id: role === "hospital" ? 1 : 101,
       name:
         role === "admin"
           ? "Admin"
           : role === "hospital"
-            ? "Medicity"
+            ? "Medicity Super Specialty"
             : "Rahul Sharma",
       role: role,
-    });
+    };
+    setUser(mockUser);
+    localStorage.setItem("medstay_user", JSON.stringify(mockUser));
     navigate(
       role === "admin" ? "/admin" : role === "hospital" ? "/hospital" : "/patient"
     );
@@ -512,8 +498,54 @@ const AuthPage = ({ setUser }) => {
   );
 };
 
-const PatientPortal = () => {
+const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user }) => {
   const [selectedHospital, setSelectedHospital] = useState(null);
+  const [selectedBed, setSelectedBed] = useState(null);
+  const [bookingDetails, setBookingDetails] = useState({
+    patientName: user?.name || "",
+    age: "",
+    gender: "Male",
+    phone: "",
+    reason: "",
+  });
+
+  const handleBooking = (e) => {
+    e.preventDefault();
+
+    const newBooking = {
+      id: Date.now(),
+      ...bookingDetails,
+      hospitalName: selectedHospital.name,
+      hospitalId: selectedHospital.id,
+      bedId: selectedBed.id,
+      bedType: selectedBed.type,
+      status: "Confirmed",
+      timestamp: new Date().toLocaleString(),
+    };
+
+    const updatedBookings = [newBooking, ...bookings];
+    setBookings(updatedBookings);
+    localStorage.setItem("medstay_bookings", JSON.stringify(updatedBookings));
+
+    const updatedHospitals = hospitals.map(h => {
+      if (h.id === selectedHospital.id) {
+        return {
+          ...h,
+          wards: h.wards.map(w => ({
+            ...w,
+            beds: w.beds.map(b => b.id === selectedBed.id ? { ...b, status: "occupied" } : b)
+          }))
+        };
+      }
+      return h;
+    });
+    setHospitals(updatedHospitals);
+    localStorage.setItem("medstay_hospitals", JSON.stringify(updatedHospitals));
+
+    setSelectedBed(null);
+    setSelectedHospital(null);
+    alert("Booking Successful! Your bed has been reserved.");
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-20">
@@ -538,7 +570,7 @@ const PatientPortal = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-        {HOSPITALS.map((h) => (
+        {hospitals.map((h) => (
           <motion.div
             key={h.id}
             whileHover={{ y: -8 }}
@@ -612,10 +644,10 @@ const PatientPortal = () => {
               initial={{ scale: 0.95, y: 30 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 30 }}
-              className="bg-white w-full max-w-5xl rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+              className="bg-white w-full max-w-6xl rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
             >
               <button
-                onClick={() => setSelectedHospital(null)}
+                onClick={() => { setSelectedHospital(null); setSelectedBed(null); }}
                 className="absolute top-8 right-8 p-3 bg-slate-50 rounded-full hover:bg-red-50 hover:text-red-500 transition-all cursor-pointer z-[1010]"
               >
                 <X className="w-5 h-5" />
@@ -626,7 +658,9 @@ const PatientPortal = () => {
                   {selectedHospital.name}
                 </h2>
                 <p className="text-slate-400 font-bold mb-10 leading-relaxed">
-                  Select your ward category and choose a specific bed slot for immediate reservation.
+                  {selectedBed
+                    ? `You've selected Slot ${selectedBed.id}. Please provide patient details.`
+                    : "Select your ward category and choose a specific bed slot for immediate reservation."}
                 </p>
 
                 <div className="space-y-6">
@@ -646,18 +680,238 @@ const PatientPortal = () => {
               </div>
 
               <div className="w-full md:w-2/3 p-12 overflow-y-auto no-scrollbar bg-white">
-                <BedLayout
-                  wards={selectedHospital.wards}
-                  onSelect={(bed) => {
-                    alert(`Slot ${bed.id} Initialized. Redirecting to check-in...`);
-                    setSelectedHospital(null);
-                  }}
-                />
+                {!selectedBed ? (
+                  <BedLayout
+                    wards={selectedHospital.wards}
+                    onSelect={(bed) => setSelectedBed(bed)}
+                  />
+                ) : (
+                  <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
+                    <h3 className="text-2xl font-black text-slate-900 mb-8">Patient Details</h3>
+                    <form onSubmit={handleBooking} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Full Name</label>
+                        <input
+                          required
+                          value={bookingDetails.patientName}
+                          onChange={(e) => setBookingDetails({ ...bookingDetails, patientName: e.target.value })}
+                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Age</label>
+                        <input
+                          required
+                          type="number"
+                          value={bookingDetails.age}
+                          onChange={(e) => setBookingDetails({ ...bookingDetails, age: e.target.value })}
+                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Contact</label>
+                        <input
+                          required
+                          value={bookingDetails.phone}
+                          onChange={(e) => setBookingDetails({ ...bookingDetails, phone: e.target.value })}
+                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Reason</label>
+                        <input
+                          required
+                          value={bookingDetails.reason}
+                          onChange={(e) => setBookingDetails({ ...bookingDetails, reason: e.target.value })}
+                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                        />
+                      </div>
+                      <div className="md:col-span-2 mt-8 flex gap-4">
+                        <button type="button" onClick={() => setSelectedBed(null)} className="flex-1 py-5 border-2 border-slate-100 rounded-2xl font-black text-slate-400">Back</button>
+                        <button type="submit" className="flex-[2] py-5 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black shadow-lg">Confirm Reservation</button>
+                      </div>
+                    </form>
+                  </motion.div>
+                )}
               </div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
+
+      {bookings.length > 0 && (
+        <div className="mt-32">
+          <h3 className="text-3xl font-black text-slate-900 mb-10 italic">Your Bookings</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {bookings.map((b) => (
+              <div key={b.id} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl flex justify-between items-center">
+                <div>
+                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{b.timestamp}</p>
+                  <h4 className="text-xl font-black text-slate-900 mb-1">{b.hospitalName}</h4>
+                  <p className="text-sm font-bold text-emerald-700">Slot: {b.bedId}</p>
+                </div>
+                <div className="bg-emerald-50 px-6 py-3 rounded-2xl border border-emerald-100 text-emerald-700 font-black text-xs">{b.status}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const HospitalPortal = ({ bookings, hospitals, user }) => {
+  const hospitalBookings = bookings.filter(b => b.hospitalName === user?.name);
+  const currentHospital = hospitals.find(h => h.name === user?.name) || hospitals[0];
+
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-16">
+        <div>
+          <div className="flex items-center gap-2 bg-slate-900 text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit">
+            Hospital Panel
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Terminal: <span className="text-[#b8e2b0] italic">{user?.name}</span>
+          </h2>
+        </div>
+
+        <div className="flex gap-4">
+          <div className="bg-emerald-50 p-6 rounded-3xl border border-emerald-100">
+            <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">Live Bookings</p>
+            <p className="text-3xl font-black text-emerald-700">{hospitalBookings.length}</p>
+          </div>
+          <div className="bg-slate-50 p-6 rounded-3xl border border-slate-100">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Total Capacity</p>
+            <p className="text-3xl font-black text-slate-900">
+              {currentHospital.wards.reduce((acc, w) => acc + w.beds.length, 0)}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="lg:col-span-2">
+          <h3 className="text-2xl font-black text-slate-900 mb-8 italic">Incoming Reservations</h3>
+          <div className="space-y-6">
+            {hospitalBookings.length === 0 ? (
+              <div className="bg-slate-50 p-12 rounded-[40px] text-center border-2 border-dashed border-slate-200">
+                <p className="text-slate-400 font-bold">No active bookings for your clinic yet.</p>
+              </div>
+            ) : (
+              hospitalBookings.map((b) => (
+                <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} key={b.id} className="bg-white p-10 rounded-[40px] border border-slate-100 shadow-xl hover:shadow-2xl transition-all">
+                  <div className="flex flex-col md:flex-row justify-between gap-8">
+                    <div className="flex-1">
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className="w-12 h-12 bg-slate-100 rounded-2xl flex items-center justify-center"><User className="w-6 h-6 text-slate-400" /></div>
+                        <div>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient</p>
+                          <h4 className="text-xl font-black text-slate-900">{b.patientName} (Age: {b.age})</h4>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-6 p-6 bg-slate-50 rounded-3xl border border-slate-100">
+                        <div>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Bed Slot</p>
+                          <p className="text-sm font-black text-emerald-700">{b.bedId}</p>
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Condition</p>
+                          <p className="text-sm font-black text-slate-900 italic">"{b.reason}"</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="flex flex-col justify-center gap-4 border-l-0 md:border-l border-slate-100 pl-0 md:pl-10">
+                      <button className="px-8 py-4 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black text-xs hover:bg-emerald-900 hover:text-white transition-all">Confirm Check-in</button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))
+            )}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-2xl font-black text-slate-900 mb-8 italic">Ward Status</h3>
+          <div className="space-y-6">
+            {currentHospital.wards.map((w, idx) => (
+              <div key={idx} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-lg">
+                <div className="flex justify-between items-center mb-6">
+                  <h4 className="text-sm font-black text-slate-900 uppercase tracking-widest">{w.name}</h4>
+                  <span className="text-[10px] font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full">{w.beds.filter(b => b.status === "available").length} / {w.beds.length} Available</span>
+                </div>
+                <div className="h-2 bg-slate-50 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#b8e2b0]"
+                    style={{ width: `${(w.beds.filter(b => b.status === "available").length / w.beds.length) * 100}%` }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const AdminPortal = ({ bookings, hospitals }) => {
+  return (
+    <div className="max-w-7xl mx-auto px-6 py-20">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-16">
+        <div>
+          <div className="flex items-center gap-2 bg-emerald-950 text-[#b8e2b0] px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit">
+            Network Administrator
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
+            Global <span className="text-[#b8e2b0] italic">Operations</span> Center
+          </h2>
+        </div>
+
+        <div className="flex gap-6">
+          <div className="bg-slate-900 p-8 rounded-[32px] text-white">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Total Bookings</p>
+            <p className="text-4xl font-black">{bookings.length}</p>
+          </div>
+          <div className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl">
+            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Active Hospitals</p>
+            <p className="text-4xl font-black text-slate-900">{hospitals.length}</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="bg-white border border-slate-100 rounded-[48px] shadow-2xl overflow-hidden p-12">
+        <h3 className="text-2xl font-black text-slate-900 mb-10 italic">All Network Reservations</h3>
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-slate-100">
+              <th className="text-left py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Patient</th>
+              <th className="text-left py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Hospital</th>
+              <th className="text-left py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Bed Slot</th>
+              <th className="text-left py-6 text-[10px] font-black text-slate-400 uppercase tracking-widest">Time</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-50">
+            {bookings.length === 0 ? (
+              <tr><td colSpan="4" className="py-20 text-center text-slate-400 font-bold">No active data.</td></tr>
+            ) : (
+              bookings.map((b) => (
+                <tr key={b.id} className="hover:bg-slate-50/50 transition-colors group">
+                  <td className="py-8">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center font-black text-xs">{b.patientName[0]}</div>
+                      <span className="font-black text-slate-900">{b.patientName}</span>
+                    </div>
+                  </td>
+                  <td className="py-8 font-bold text-slate-500">{b.hospitalName}</td>
+                  <td className="py-8"><span className="bg-slate-100 px-4 py-2 rounded-xl text-xs font-black text-slate-900 uppercase">{b.bedId}</span></td>
+                  <td className="py-8 text-xs font-bold text-slate-400">{b.timestamp}</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
@@ -665,7 +919,20 @@ const PatientPortal = () => {
 // --- App Root ---
 
 function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("medstay_user");
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const [hospitals, setHospitals] = useState(() => {
+    const saved = localStorage.getItem("medstay_hospitals");
+    return saved ? JSON.parse(saved) : INITIAL_HOSPITALS;
+  });
+
+  const [bookings, setBookings] = useState(() => {
+    const saved = localStorage.getItem("medstay_bookings");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -682,14 +949,45 @@ function App() {
             path="/patient"
             element={
               user?.role === "patient" ? (
-                <PatientPortal />
+                <PatientPortal
+                  hospitals={hospitals}
+                  setHospitals={setHospitals}
+                  bookings={bookings}
+                  setBookings={setBookings}
+                  user={user}
+                />
               ) : (
                 <Navigate to="/auth?role=patient" />
               )
             }
           />
-          <Route path="/hospital" element={<Navigate to="/" />} />
-          <Route path="/admin" element={<Navigate to="/" />} />
+          <Route
+            path="/hospital"
+            element={
+              user?.role === "hospital" ? (
+                <HospitalPortal
+                  bookings={bookings}
+                  hospitals={hospitals}
+                  user={user}
+                />
+              ) : (
+                <Navigate to="/auth?role=hospital" />
+              )
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              user?.role === "admin" ? (
+                <AdminPortal
+                  bookings={bookings}
+                  hospitals={hospitals}
+                />
+              ) : (
+                <Navigate to="/auth?role=admin" />
+              )
+            }
+          />
         </Routes>
 
         <footer className="bg-slate-50 border-t border-slate-100 py-24 mt-40">
