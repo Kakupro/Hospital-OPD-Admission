@@ -798,17 +798,17 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
               initial={{ scale: 0.95, y: 30 }}
               animate={{ scale: 1, y: 0 }}
               exit={{ scale: 0.95, y: 30 }}
-              className="bg-white w-full max-w-6xl rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col md:flex-row max-h-[90vh]"
+              className="bg-[#0A1628] w-full max-w-6xl rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col md:flex-row max-h-[90vh] border border-teal/10"
             >
               <button
                 onClick={() => { setSelectedHospital(null); setSelectedBed(null); }}
-                className="absolute top-8 right-8 p-3 bg-slate-50 rounded-full hover:bg-red-50 hover:text-red-500 transition-all cursor-pointer z-[1010]"
+                className="absolute top-8 right-8 p-3 bg-ice/5 rounded-full hover:bg-red-500/10 hover:text-red-500 transition-all cursor-pointer z-[1010] border border-ice/10"
               >
                 <X className="w-5 h-5" />
               </button>
 
-              <div className="w-full md:w-1/3 bg-slate-50 p-12 border-r border-slate-100 overflow-y-auto no-scrollbar">
-                <h2 className="text-4xl font-black text-slate-900 mb-6 tracking-tight italic">
+              <div className="w-full md:w-1/3 bg-[#0C1B31] p-12 border-r border-ice/5 overflow-y-auto no-scrollbar">
+                <h2 className="text-4xl font-black text-ice mb-6 tracking-tight italic">
                   {selectedHospital.name}
                 </h2>
                 <p className="text-slate-400 font-bold mb-10 leading-relaxed">
@@ -819,21 +819,21 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
 
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 rounded-xl bg-white border-2 border-[#b8e2b0] shadow-sm" />
-                    <span className="text-sm font-black text-slate-700 uppercase tracking-widest">Regular Slot</span>
+                    <div className="w-8 h-8 rounded-xl bg-teal/10 border-2 border-teal/50 shadow-sm" />
+                    <span className="text-sm font-black text-ice/80 uppercase tracking-widest">Regular Slot</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-50 border-2 border-emerald-100" />
-                    <span className="text-sm font-black text-emerald-900 uppercase tracking-widest">ICU Unit</span>
+                    <div className="w-8 h-8 rounded-xl bg-teal/30 border-2 border-teal" />
+                    <span className="text-sm font-black text-teal uppercase tracking-widest">ICU Unit</span>
                   </div>
                   <div className="flex items-center gap-4">
-                    <div className="w-8 h-8 rounded-xl bg-slate-100 border-2 border-slate-200" />
-                    <span className="text-sm font-black text-slate-300 uppercase tracking-widest">Occupied</span>
+                    <div className="w-8 h-8 rounded-xl bg-white/5 border-2 border-white/10" />
+                    <span className="text-sm font-black text-ice/30 uppercase tracking-widest">Occupied</span>
                   </div>
                 </div>
               </div>
 
-              <div className="w-full md:w-2/3 p-12 overflow-y-auto no-scrollbar bg-white">
+              <div className="w-full md:w-2/3 p-12 overflow-y-auto no-scrollbar bg-[#0A1628]">
                 {!selectedBed ? (
                   <BedLayout
                     wards={selectedHospital.wards}
@@ -841,64 +841,64 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
                   />
                 ) : (
                   <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                    <h3 className="text-2xl font-black text-slate-900 mb-8">Patient Details</h3>
+                    <h3 className="text-2xl font-black text-ice mb-8">Patient Details</h3>
                     <form onSubmit={handleBooking} className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Full Name</label>
+                        <label className="text-[10px] font-black uppercase text-slate/60 ml-2">Full Name</label>
                         <input
                           required
                           value={bookingDetails.patientName}
                           onChange={(e) => setBookingDetails({ ...bookingDetails, patientName: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                          className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 outline-none font-bold text-ice focus:border-teal/50 transition-colors"
                           placeholder="e.g. Rahul Sharma"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Age / Gender</label>
+                        <label className="text-[10px] font-black uppercase text-slate/60 ml-2">Age / Gender</label>
                         <div className="flex gap-4">
                           <input
                             required
                             type="number"
                             value={bookingDetails.age}
                             onChange={(e) => setBookingDetails({ ...bookingDetails, age: e.target.value })}
-                            className="w-24 bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                            className="w-24 bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 outline-none font-bold text-ice focus:border-teal/50 transition-colors"
                             placeholder="Age"
                           />
                           <select
                             value={bookingDetails.gender}
                             onChange={(e) => setBookingDetails({ ...bookingDetails, gender: e.target.value })}
-                            className="flex-1 bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold appearance-none cursor-pointer"
+                            className="flex-1 bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 outline-none font-bold text-ice focus:border-teal/50 transition-colors appearance-none cursor-pointer"
                           >
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Other</option>
+                            <option className="bg-navy">Male</option>
+                            <option className="bg-navy">Female</option>
+                            <option className="bg-navy">Other</option>
                           </select>
                         </div>
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Contact Number</label>
+                        <label className="text-[10px] font-black uppercase text-slate/60 ml-2">Contact Number</label>
                         <input
                           required
                           type="tel"
                           value={bookingDetails.phone}
                           onChange={(e) => setBookingDetails({ ...bookingDetails, phone: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                          className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 outline-none font-bold text-ice focus:border-teal/50 transition-colors"
                           placeholder="+91 XXXXX XXXXX"
                         />
                       </div>
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Reason for Admission</label>
+                        <label className="text-[10px] font-black uppercase text-slate/60 ml-2">Reason for Admission</label>
                         <input
                           required
                           value={bookingDetails.reason}
                           onChange={(e) => setBookingDetails({ ...bookingDetails, reason: e.target.value })}
-                          className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 outline-none font-bold"
+                          className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 outline-none font-bold text-ice focus:border-teal/50 transition-colors"
                           placeholder="Short description..."
                         />
                       </div>
                       <div className="md:col-span-2 mt-8 flex gap-4">
-                        <button type="button" onClick={() => setSelectedBed(null)} className="flex-1 py-5 border-2 border-slate-100 rounded-2xl font-black text-slate-400 hover:bg-slate-50 transition-all cursor-pointer">Back</button>
-                        <button type="submit" className="flex-[2] py-5 bg-[#b8e2b0] text-emerald-900 rounded-2xl font-black shadow-lg hover:bg-emerald-900 hover:text-white transition-all cursor-pointer">Confirm Reservation</button>
+                        <button type="button" onClick={() => setSelectedBed(null)} className="flex-1 py-5 border-2 border-ice/10 rounded-2xl font-black text-ice/40 hover:bg-ice/5 transition-all cursor-pointer">Back</button>
+                        <button type="submit" className="flex-[2] btn-teal py-5">Confirm Reservation</button>
                       </div>
                     </form>
                   </motion.div>
