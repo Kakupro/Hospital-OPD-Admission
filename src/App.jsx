@@ -755,17 +755,17 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
                 </p>
 
                 <div className="grid grid-cols-2 gap-4 mb-10">
-                  <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">
+                  <div className="p-5 bg-ice/5 rounded-2xl border border-ice/10">
+                    <p className="text-[10px] font-black text-slate uppercase tracking-widest mb-1">
                       Price/day
                     </p>
-                    <p className="text-xl font-black text-slate-900">₹{h.pricePerDay}</p>
+                    <p className="text-xl font-black text-ice">₹{h.pricePerDay}</p>
                   </div>
-                  <div className="p-5 bg-emerald-50 rounded-2xl border border-emerald-100">
-                    <p className="text-[10px] font-black text-emerald-600 uppercase tracking-widest mb-1">
+                  <div className="p-5 bg-teal/10 rounded-2xl border border-teal/20">
+                    <p className="text-[10px] font-black text-teal uppercase tracking-widest mb-1">
                       Available
                     </p>
-                    <p className="text-xl font-black text-emerald-700">
+                    <p className="text-xl font-black text-teal">
                       {h.wards.reduce(
                         (acc, w) => acc + w.beds.filter((b) => b.status === "available").length,
                         0
@@ -911,16 +911,16 @@ const PatientPortal = ({ hospitals, setHospitals, bookings, setBookings, user })
 
       {bookings.length > 0 && (
         <div className="mt-32">
-          <h3 className="text-3xl font-black text-slate-900 mb-10 italic">Your Bookings</h3>
+          <h3 className="text-3xl font-black text-ice mb-10 italic">Your Bookings</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {bookings.map((b) => (
-              <div key={b.id} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-xl flex justify-between items-center">
+              <div key={b.id} className="glass-card p-8 border-ice/5 shadow-xl flex justify-between items-center">
                 <div>
-                  <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">{b.timestamp}</p>
-                  <h4 className="text-xl font-black text-slate-900 mb-1">{b.hospitalName}</h4>
-                  <p className="text-sm font-bold text-emerald-700">Slot: {b.bedId}</p>
+                  <p className="text-[10px] font-black text-slate uppercase tracking-widest mb-2">{b.timestamp}</p>
+                  <h4 className="text-xl font-black text-ice mb-1">{b.hospitalName}</h4>
+                  <p className="text-sm font-bold text-teal">Slot: {b.bedId}</p>
                 </div>
-                <div className="bg-emerald-50 px-6 py-3 rounded-2xl border border-emerald-100 text-emerald-700 font-black text-xs">{b.status}</div>
+                <div className="bg-teal/10 px-6 py-3 rounded-2xl border border-teal/20 text-teal font-black text-xs">{b.status}</div>
               </div>
             ))}
           </div>
@@ -936,25 +936,25 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-20 pb-40">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 bg-slate-900 p-12 rounded-[56px] text-white relative overflow-hidden">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 bg-navy border border-ice/5 p-12 rounded-[56px] text-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-96 h-96 bg-[#b8e2b0]/10 blur-[120px] rounded-full" />
         <div className="relative z-10">
-          <div className="flex items-center gap-2 bg-[#b8e2b0]/20 text-[#b8e2b0] px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit border border-[#b8e2b0]/20">
+          <div className="flex items-center gap-2 bg-teal/10 text-teal px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 w-fit border border-teal/20">
             Node: Terminal-EX-01
           </div>
           <h2 className="text-4xl md:text-5xl font-black tracking-tighter leading-tight italic">
             {user?.name}
           </h2>
-          <p className="text-slate-400 font-bold mt-2">Inventory Management Console</p>
+          <p className="text-slate font-bold mt-2">Inventory Management Console</p>
         </div>
 
         <div className="flex gap-6 relative z-10">
-          <div className="glass-dark p-8 rounded-[32px] min-w-[160px]">
-            <p className="text-[10px] font-black text-[#b8e2b0] uppercase tracking-widest mb-2">Active</p>
+          <div className="bg-ice/5 p-8 rounded-[32px] min-w-[160px] border border-ice/10 text-center">
+            <p className="text-[10px] font-black text-teal uppercase tracking-widest mb-2">Active</p>
             <p className="text-5xl font-black tracking-tighter">{hospitalBookings.length}</p>
           </div>
-          <div className="glass-dark p-8 rounded-[32px] min-w-[160px]">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Capacity</p>
+          <div className="bg-ice/5 p-8 rounded-[32px] min-w-[160px] border border-ice/10 text-center">
+            <p className="text-[10px] font-black text-slate uppercase tracking-widest mb-2">Capacity</p>
             <p className="text-5xl font-black tracking-tighter">
               {currentHospital.wards.reduce((acc, w) => acc + w.beds.length, 0)}
             </p>
@@ -965,18 +965,18 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
         <div className="lg:col-span-2">
           <div className="flex items-center justify-between mb-10">
-            <h3 className="text-3xl font-black text-slate-900 italic tracking-tight">Incoming Queue</h3>
+            <h3 className="text-3xl font-black text-ice italic tracking-tight">Incoming Queue</h3>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 bg-[#b8e2b0] rounded-full animate-ping" />
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Live Syncing</p>
+              <span className="w-2 h-2 bg-teal rounded-full animate-ping" />
+              <p className="text-[10px] font-black text-slate uppercase tracking-widest">Live Syncing</p>
             </div>
           </div>
 
           <div className="space-y-8">
             {hospitalBookings.length === 0 ? (
-              <div className="bg-slate-50 p-20 rounded-[56px] text-center border-4 border-dashed border-slate-100">
-                <p className="text-slate-400 font-black uppercase text-xs tracking-widest">System standby...</p>
-                <p className="text-slate-300 font-bold mt-2">Waiting for network requests.</p>
+              <div className="bg-ice/5 p-20 rounded-[56px] text-center border-4 border-dashed border-ice/10">
+                <p className="text-slate font-black uppercase text-xs tracking-widest">System standby...</p>
+                <p className="text-slate/40 font-bold mt-2">Waiting for network requests.</p>
               </div>
             ) : (
               hospitalBookings.map((b) => (
@@ -984,37 +984,37 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   key={b.id}
-                  className="card-premium p-10 group relative isolate"
+                  className="glass-card p-10 group relative isolate border-teal/5 hover:border-teal/30"
                 >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-50/50 rounded-bl-full -z-10 transition-all group-hover:bg-[#b8e2b0]/20" />
                   <div className="flex flex-col md:flex-row justify-between gap-10">
                     <div className="flex-1">
                       <div className="flex items-center gap-5 mb-8">
-                        <div className="w-16 h-16 bg-slate-900 rounded-[20px] flex items-center justify-center text-[#b8e2b0] font-black text-xl shadow-xl">
+                        <div className="w-16 h-16 bg-navy border border-teal/20 rounded-[20px] flex items-center justify-center text-teal font-black text-xl shadow-xl">
                           {b.patientName[0]}
                         </div>
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Patient Identity</p>
-                          <h4 className="text-2xl font-black text-slate-900">{b.patientName} <span className="text-slate-300 font-bold ml-2 text-lg">({b.age}y)</span></h4>
+                          <p className="text-[10px] font-black text-slate uppercase tracking-widest mb-1">Patient Identity</p>
+                          <h4 className="text-2xl font-black text-ice">{b.patientName} <span className="text-slate font-bold ml-2 text-lg">({b.age}y)</span></h4>
                         </div>
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-slate-50 rounded-[32px] border border-slate-100">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 p-8 bg-ice/5 border border-ice/10 rounded-[32px]">
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Reserved Slot</p>
-                          <span className="px-4 py-2 bg-emerald-950 text-[#b8e2b0] rounded-xl text-xs font-black uppercase">{b.bedId}</span>
+                          <p className="text-[10px] font-black text-slate uppercase tracking-widest mb-2">Reserved Slot</p>
+                          <span className="px-4 py-2 bg-teal/10 text-teal rounded-xl text-xs font-black uppercase border border-teal/20">{b.bedId}</span>
                         </div>
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Contact</p>
-                          <p className="text-sm font-black text-slate-900">{b.phone}</p>
+                          <p className="text-[10px] font-black text-slate uppercase tracking-widest mb-2">Contact</p>
+                          <p className="text-sm font-black text-ice">{b.phone}</p>
                         </div>
                         <div>
-                          <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Clinical Note</p>
-                          <p className="text-sm font-bold text-slate-600 italic">"{b.reason}"</p>
+                          <p className="text-[10px] font-black text-slate uppercase tracking-widest mb-2">Clinical Note</p>
+                          <p className="text-sm font-bold text-ice/60 italic">"{b.reason}"</p>
                         </div>
                       </div>
                     </div>
                     <div className="flex flex-col justify-center gap-4">
-                      <button className="px-10 py-5 bg-[#b8e2b0] text-emerald-900 rounded-[22px] font-black text-xs uppercase tracking-widest hover:bg-emerald-900 hover:text-white transition-all shadow-xl shadow-emerald-900/5">
+                      <button className="px-10 py-5 btn-teal text-xs uppercase tracking-widest">
                         Confirm Entry
                       </button>
                     </div>
@@ -1026,27 +1026,27 @@ const HospitalPortal = ({ bookings, hospitals, user }) => {
         </div>
 
         <div>
-          <h3 className="text-3xl font-black text-slate-900 mb-10 italic tracking-tight">Ward Metrics</h3>
+          <h3 className="text-3xl font-black text-ice mb-10 italic tracking-tight">Ward Metrics</h3>
           <div className="space-y-8">
             {currentHospital.wards.map((w, idx) => (
-              <div key={idx} className="card-premium p-10 bg-slate-50/50">
+              <div key={idx} className="glass-card p-10 border-ice/5">
                 <div className="flex justify-between items-center mb-8">
-                  <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em]">{w.name}</h4>
-                  <span className="text-[12px] font-black text-emerald-900 bg-[#b8e2b0] px-4 py-1.5 rounded-full border border-emerald-900/10">
+                  <h4 className="text-xs font-black text-ice/40 uppercase tracking-[0.2em]">{w.name}</h4>
+                  <span className="text-[12px] font-black text-teal bg-teal/10 px-4 py-1.5 rounded-full border border-teal/20">
                     {w.beds.filter(b => b.status === "available").length} Left
                   </span>
                 </div>
                 <div className="relative pt-1">
-                  <div className="overflow-hidden h-3 text-xs flex rounded-full bg-slate-200">
+                  <div className="overflow-hidden h-3 text-xs flex rounded-full bg-ice/5">
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${(w.beds.filter(b => b.status === "available").length / w.beds.length) * 100}%` }}
                       transition={{ duration: 1.5, ease: "easeOut" }}
-                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-gradient-to-r from-emerald-600 to-[#b8e2b0]"
+                      className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-teal"
                     />
                   </div>
                 </div>
-                <div className="mt-4 flex justify-between text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                <div className="mt-4 flex justify-between text-[10px] font-black text-slate uppercase tracking-widest">
                   <span>Occupancy</span>
                   <span>{Math.round((w.beds.filter(b => b.status === "occupied").length / w.beds.length) * 100)}%</span>
                 </div>
@@ -1091,108 +1091,108 @@ const AdminPortal = ({ bookings, hospitals, setHospitals }) => {
   };
   return (
     <div className="max-w-7xl mx-auto px-6 py-20 pb-40">
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 bg-[#b8e2b0] p-16 rounded-[64px] relative overflow-hidden">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-10 mb-20 bg-teal p-16 rounded-[64px] relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent pointer-events-none" />
         <div className="relative z-10">
-          <div className="flex items-center gap-2 bg-emerald-950 text-[#b8e2b0] px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 w-fit shadow-xl">
+          <div className="flex items-center gap-2 bg-navy text-teal px-5 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest mb-8 w-fit shadow-xl border border-navy/10">
             Network Operations Command
           </div>
-          <h2 className="text-6xl md:text-7xl font-black text-emerald-950 tracking-tighter leading-tight italic">
+          <h2 className="text-6xl md:text-7xl font-black text-navy tracking-tighter leading-tight italic">
             Global <br /> <span className="opacity-40">Intelligence</span>
           </h2>
         </div>
 
         <div className="flex flex-wrap gap-8 relative z-10">
-          <motion.div whileHover={{ scale: 1.05 }} className="bg-emerald-950 p-10 rounded-[40px] text-white shadow-2xl min-w-[200px]">
-            <p className="text-[10px] font-black text-[#b8e2b0] uppercase tracking-[0.3em] mb-3">Network Reservations</p>
-            <p className="text-6xl font-black tracking-tighter italic">{bookings.length}</p>
+          <motion.div whileHover={{ scale: 1.05 }} className="bg-navy p-10 rounded-[40px] text-teal shadow-2xl min-w-[200px] border border-navy/10">
+            <p className="text-[10px] font-black text-teal uppercase tracking-[0.3em] mb-3">Network Reservations</p>
+            <p className="text-6xl font-black tracking-tighter italic text-ice">{bookings.length}</p>
           </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }} className="bg-white p-10 rounded-[40px] shadow-2xl min-w-[200px] border border-emerald-100">
-            <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mb-3">Live Nodes</p>
-            <p className="text-6xl font-black text-slate-900 tracking-tighter italic">{hospitals.length}</p>
+          <motion.div whileHover={{ scale: 1.05 }} className="bg-ice/10 p-10 rounded-[40px] shadow-2xl min-w-[200px] border border-white/10 backdrop-blur-md">
+            <p className="text-[10px] font-black text-navy uppercase tracking-[0.3em] mb-3">Live Nodes</p>
+            <p className="text-6xl font-black text-navy tracking-tighter italic">{hospitals.length}</p>
           </motion.div>
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={() => setShowAddForm(true)}
-            className="bg-slate-900 text-white p-10 rounded-[40px] shadow-2xl min-w-[200px] flex flex-col items-center justify-center gap-2 border-4 border-white/10 hover:border-[#b8e2b0] transition-all cursor-pointer"
+            className="bg-navy text-white p-10 rounded-[40px] shadow-2xl min-w-[200px] flex flex-col items-center justify-center gap-2 border-4 border-white/10 hover:border-navy transition-all cursor-pointer"
           >
-            <Plus className="w-8 h-8 text-[#b8e2b0]" />
-            <p className="text-[10px] font-black uppercase tracking-[0.3em]">Add Hospital</p>
+            <Plus className="w-8 h-8 text-teal" />
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-teal">Add Hospital</p>
           </motion.button>
         </div>
       </div>
 
       <AnimatePresence>
         {showAddForm && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2000] bg-slate-900/60 backdrop-blur-md flex items-center justify-center p-6">
-            <motion.div initial={{ scale: 0.95, y: 30 }} animate={{ scale: 1, y: 0 }} className="bg-white w-full max-w-2xl rounded-[40px] p-12 shadow-2xl relative">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-[2000] bg-navy/60 backdrop-blur-md flex items-center justify-center p-6">
+            <motion.div initial={{ scale: 0.95, y: 30 }} animate={{ scale: 1, y: 0 }} className="bg-navy w-full max-w-2xl rounded-[40px] p-12 shadow-2xl relative border border-ice/10 text-ice">
               <button
                 onClick={() => setShowAddForm(false)}
-                className="absolute top-10 right-10 p-3 bg-slate-50 rounded-full hover:bg-red-50 hover:text-red-500 transition-all cursor-pointer"
+                className="absolute top-10 right-10 p-3 bg-ice/5 rounded-full hover:bg-red-500/10 hover:text-red-500 transition-all cursor-pointer border border-ice/10"
               >
                 <X className="w-5 h-5" />
               </button>
-              <div className="mb-10">
-                <h3 className="text-3xl font-black text-slate-900 italic tracking-tight">Onboard New Hospital</h3>
-                <p className="text-slate-400 font-bold">Deploy a new medical node to the global network.</p>
+              <div className="mb-10 text-center">
+                <h3 className="text-3xl font-black text-ice italic tracking-tight">Onboard New Hospital</h3>
+                <p className="text-slate font-bold">Deploy a new medical node to the global network.</p>
               </div>
               <form onSubmit={handleAddHospital} className="space-y-6">
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-6 text-ice">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Hospital Name</label>
-                    <input required value={newHospital.name} onChange={e => setNewHospital({ ...newHospital, name: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-[#b8e2b0]/20" placeholder="e.g. City Life Hospital" />
+                    <label className="text-[10px] font-black uppercase text-slate ml-2">Hospital Name</label>
+                    <input required value={newHospital.name} onChange={e => setNewHospital({ ...newHospital, name: e.target.value })} className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-teal/20 text-ice" placeholder="e.g. City Life Hospital" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Location/City</label>
-                    <input required value={newHospital.location} onChange={e => setNewHospital({ ...newHospital, location: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-[#b8e2b0]/20" placeholder="e.g. Bangalore, Sector 4" />
+                    <label className="text-[10px] font-black uppercase text-slate ml-2">Location/City</label>
+                    <input required value={newHospital.location} onChange={e => setNewHospital({ ...newHospital, location: e.target.value })} className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-teal/20 text-ice" placeholder="e.g. Bangalore, Sector 4" />
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-6">
+                <div className="grid grid-cols-2 gap-6 text-ice">
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Price Per Day (₹)</label>
-                    <input required type="number" value={newHospital.pricePerDay} onChange={e => setNewHospital({ ...newHospital, pricePerDay: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-[#b8e2b0]/20" placeholder="e.g. 4500" />
+                    <label className="text-[10px] font-black uppercase text-slate ml-2">Price Per Day (₹)</label>
+                    <input required type="number" value={newHospital.pricePerDay} onChange={e => setNewHospital({ ...newHospital, pricePerDay: e.target.value })} className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 font-bold outline-none focus:ring-4 focus:ring-teal/20 text-ice" placeholder="e.g. 4500" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase text-slate-400 ml-2">Facility Type</label>
-                    <select value={newHospital.type} onChange={e => setNewHospital({ ...newHospital, type: e.target.value })} className="w-full bg-slate-50 border border-slate-100 rounded-2xl px-6 py-4 font-bold outline-none cursor-pointer">
-                      <option>Multi-Specialty</option>
-                      <option>General Hospital</option>
-                      <option>Trauma Center</option>
-                      <option>ICU Specialist</option>
+                    <label className="text-[10px] font-black uppercase text-slate ml-2">Facility Type</label>
+                    <select value={newHospital.type} onChange={e => setNewHospital({ ...newHospital, type: e.target.value })} className="w-full bg-ice/5 border border-ice/10 rounded-2xl px-6 py-4 font-bold outline-none cursor-pointer text-ice">
+                      <option className="bg-navy">Multi-Specialty</option>
+                      <option className="bg-navy">General Hospital</option>
+                      <option className="bg-navy">Trauma Center</option>
+                      <option className="bg-navy">ICU Specialist</option>
                     </select>
                   </div>
                 </div>
-                <button type="submit" className="w-full py-6 bg-slate-900 text-white rounded-[24px] font-black text-xl shadow-xl hover:bg-[#b8e2b0] hover:text-emerald-900 transition-all transform hover:-translate-y-2">Activate Node</button>
+                <button type="submit" className="w-full py-6 btn-teal text-xl transform hover:-translate-y-2">Activate Node</button>
               </form>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
-      <div className="card-premium overflow-hidden p-16 isolate relative">
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#b8e2b0] to-transparent" />
-        <div className="flex items-center justify-between mb-16">
-          <h3 className="text-3xl font-black text-slate-900 italic tracking-tight">Ledger Operations</h3>
+      <div className="glass-card overflow-hidden p-16 isolate relative border-ice/5">
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-teal to-transparent" />
+        <div className="flex items-center justify-between mb-16 px-12">
+          <h3 className="text-3xl font-black text-ice italic tracking-tight">Ledger Operations</h3>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2 bg-slate-50 px-6 py-3 rounded-2xl border border-slate-100">
-              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-              <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest">System Healthy</p>
+            <div className="flex items-center gap-2 bg-ice/5 px-6 py-3 rounded-2xl border border-ice/10">
+              <div className="w-2 h-2 bg-teal rounded-full animate-pulse" />
+              <p className="text-[10px] font-black text-slate uppercase tracking-widest">System Healthy</p>
             </div>
           </div>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto px-12">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-slate-100">
-                <th className="text-left pb-10 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Patient Entity</th>
-                <th className="text-left pb-10 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Node Location</th>
-                <th className="text-left pb-10 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Slot ID</th>
-                <th className="text-left pb-10 text-[10px] font-black text-slate-400 uppercase tracking-[0.3em]">Timeline</th>
+              <tr className="border-b border-ice/5">
+                <th className="text-left pb-10 text-[10px] font-black text-slate uppercase tracking-[0.3em]">Patient Entity</th>
+                <th className="text-left pb-10 text-[10px] font-black text-slate uppercase tracking-[0.3em]">Node Location</th>
+                <th className="text-left pb-10 text-[10px] font-black text-slate uppercase tracking-[0.3em]">Slot ID</th>
+                <th className="text-left pb-10 text-[10px] font-black text-slate uppercase tracking-[0.3em]">Timeline</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50">
+            <tbody className="divide-y divide-ice/5">
               {bookings.length === 0 ? (
                 <tr><td colSpan="4" className="py-32 text-center text-slate-300 font-bold italic">No active ledger entries...</td></tr>
               ) : (
@@ -1201,30 +1201,30 @@ const AdminPortal = ({ bookings, hospitals, setHospitals }) => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     key={b.id}
-                    className="hover:bg-slate-50 transition-colors group"
+                    className="hover:bg-ice/5 transition-colors group"
                   >
                     <td className="py-10">
                       <div className="flex items-center gap-5">
-                        <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center font-black text-sm shadow-lg group-hover:rotate-6 transition-transform">
+                        <div className="w-12 h-12 rounded-2xl bg-navy text-teal border border-teal/20 flex items-center justify-center font-black text-sm shadow-lg group-hover:rotate-6 transition-transform">
                           {b.patientName[0]}
                         </div>
                         <div>
-                          <p className="font-black text-slate-900 text-lg leading-tight">{b.patientName}</p>
-                          <p className="text-[10px] font-bold text-slate-400">{b.phone}</p>
+                          <p className="font-black text-ice text-lg leading-tight">{b.patientName}</p>
+                          <p className="text-[10px] font-bold text-slate">{b.phone}</p>
                         </div>
                       </div>
                     </td>
                     <td className="py-10">
-                      <p className="font-black text-slate-600 bg-slate-100 px-4 py-2 rounded-xl text-xs w-fit group-hover:bg-[#b8e2b0] group-hover:text-emerald-900 transition-colors uppercase">
+                      <p className="font-black text-slate bg-ice/5 px-4 py-2 rounded-xl text-xs w-fit group-hover:bg-teal group-hover:text-navy transition-colors uppercase border border-ice/10">
                         {b.hospitalName}
                       </p>
                     </td>
                     <td className="py-10">
-                      <span className="font-black text-emerald-700 bg-emerald-50 px-5 py-2.5 rounded-2xl text-[10px] uppercase border border-emerald-100">
+                      <span className="font-black text-teal bg-teal/10 px-5 py-2.5 rounded-2xl text-[10px] uppercase border border-teal/20">
                         {b.bedId}
                       </span>
                     </td>
-                    <td className="py-10 text-xs font-black text-slate-400 group-hover:text-slate-900 transition-colors">
+                    <td className="py-10 text-xs font-black text-slate group-hover:text-ice transition-colors">
                       {b.timestamp}
                     </td>
                   </motion.tr>
