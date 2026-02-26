@@ -109,12 +109,39 @@ const INITIAL_HOSPITALS = [
 
 // --- Shared Elements ---
 
+const CustomCursor = () => {
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+
+  useEffect(() => {
+    const moveCursor = (e) => {
+      cursorX.set(e.clientX);
+      cursorY.set(e.clientY);
+    };
+    window.addEventListener("mousemove", moveCursor);
+    return () => window.removeEventListener("mousemove", moveCursor);
+  }, []);
+
+  return (
+    <>
+      <motion.div
+        className="custom-cursor hidden lg:block"
+        style={{ x: cursorX, y: cursorY }}
+      />
+      <motion.div
+        className="custom-cursor-dot hidden lg:block"
+        style={{ x: cursorX, y: cursorY }}
+      />
+    </>
+  );
+};
+
 const Logo = () => (
   <Link to="/" className="flex items-center gap-3 group">
-    <div className="bg-[#b8e2b0] p-2 rounded-xl shadow-lg shadow-[#b8e2b0]/20 group-hover:rotate-12 transition-transform duration-500">
-      <Cross className="text-emerald-900 w-5 h-5" />
+    <div className="w-10 h-10 bg-teal rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(0,201,167,0.3)] group-hover:rotate-[15deg] transition-transform duration-500">
+      <Cross className="text-navy w-6 h-6" />
     </div>
-    <span className="text-xl font-black text-slate-900 tracking-tighter">
+    <span className="text-2xl font-bold text-ice tracking-tighter font-syne">
       MedStay
     </span>
   </Link>
@@ -123,21 +150,21 @@ const Logo = () => (
 const Navbar = ({ user, setUser }) => {
   const navigate = useNavigate();
   return (
-    <nav className="sticky top-0 z-[100] bg-white/90 backdrop-blur-md border-b border-slate-100">
+    <nav className="sticky top-0 z-[100] nav-blur border-b border-ice/5">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
         <Logo />
 
-        <div className="flex items-center gap-8 font-black text-sm">
+        <div className="flex items-center gap-8 font-bold text-sm">
           {!user ? (
             <>
-              <Link to="/auth?mode=login" className="text-slate-500 hover:text-emerald-900 transition-colors">
+              <Link to="/auth?mode=login" className="text-slate hover:text-teal transition-colors">
                 Login
               </Link>
               <Link
                 to="/auth?mode=register"
-                className="bg-[#b8e2b0] text-emerald-900 px-6 py-2.5 rounded-xl shadow-md shadow-[#b8e2b0]/10 hover:bg-emerald-900 hover:text-white transition-all"
+                className="btn-teal"
               >
-                Join Us Free
+                Join Now
               </Link>
             </>
           ) : (
@@ -150,19 +177,19 @@ const Navbar = ({ user, setUser }) => {
                       ? "/admin"
                       : "/patient"
                 }
-                className="text-slate-500 hover:text-emerald-900"
+                className="text-slate hover:text-teal"
               >
                 Dashboard
               </Link>
-              <div className="flex items-center gap-3 bg-emerald-50 px-4 py-2 rounded-xl border border-emerald-100">
-                <span className="text-slate-800 font-bold">{user.name}</span>
+              <div className="flex items-center gap-3 bg-ice/5 px-4 py-2 rounded-xl border border-ice/10">
+                <span className="text-ice font-bold">{user.name}</span>
                 <button
                   onClick={() => {
                     setUser(null);
                     localStorage.removeItem("medstay_user");
                     navigate("/");
                   }}
-                  className="text-slate-300 hover:text-red-500 transition-colors"
+                  className="text-slate hover:text-red-500 transition-colors"
                 >
                   <LogOut className="w-4 h-4" />
                 </button>
@@ -219,253 +246,165 @@ const BedLayout = ({ wards, onSelect }) => {
 
 // --- Main Pages ---
 
+// --- Main Pages ---
+
 const Landing = () => {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useTransform(mouseY, [-300, 300], [10, -10]);
-  const rotateY = useTransform(mouseX, [-300, 300], [-10, 10]);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left - rect.width / 2;
-    const y = e.clientY - rect.top - rect.height / 2;
-    mouseX.set(x);
-    mouseY.set(y);
-  };
-
   return (
-    <div className="bg-white scroll-smooth" onMouseMove={handleMouseMove}>
+    <div className="dot-grid bg-[#0A1628] min-h-screen overflow-x-hidden">
       {/* Hero Section */}
-      <section className="min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-6 pt-32 lg:pt-0">
-        <div className="absolute top-[-20%] right-[-10%] w-[1200px] h-[1200px] bg-[#b8e2b0]/15 blur-[200px] rounded-full -z-10 animate-pulse" />
-        <div className="absolute bottom-[-15%] left-[-10%] w-[1000px] h-[1000px] bg-emerald-100/40 blur-[180px] rounded-full -z-10" />
-
-        <div className="max-w-7xl mx-auto w-full relative z-10">
-          <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-32 relative">
-            <div className="flex-1 text-center lg:text-left">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-emerald-950 text-[#b8e2b0] px-8 py-3 rounded-full text-[12px] font-black uppercase tracking-[0.4em] mb-12 w-fit mx-auto lg:mx-0 shadow-2xl shadow-emerald-950/20"
-              >
+      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-teal/5 blur-[120px] rounded-full" />
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+          <div>
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="flex items-center gap-3 mb-8"
+            >
+              <span className="relative flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-teal"></span>
+              </span>
+              <p className="text-[12px] font-bold text-teal uppercase tracking-[0.3em]">
                 The Future of Healthcare Logistics
-              </motion.div>
-
-              <h1 className="text-6xl md:text-8xl xl:text-[9rem] font-black text-slate-900 leading-[0.85] mb-10 tracking-tighter">
-                Heal <br />
-                <span className="text-[#b8e2b0] italic drop-shadow-2xl">Ultra.</span>
-              </h1>
-
-              <p className="max-w-xl text-slate-500 font-bold text-xl mb-12 leading-relaxed tracking-tight mx-auto lg:mx-0">
-                The world's most advanced hospital inventory network.
-                Experience <span className="text-slate-900">Zero-Latency admissions</span> and real-time 3D bed tracking.
               </p>
+            </motion.div>
 
-              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
-                <Link
-                  to="/auth?role=patient"
-                  className="px-12 py-6 bg-[#b8e2b0] text-emerald-900 rounded-[24px] font-black text-xl shadow-[0_20px_40px_-10px_rgba(184,226,176,0.4)] hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-2 flex items-center justify-center gap-3 group"
-                >
-                  Quick Admission <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
-                </Link>
-                <Link
-                  to="/auth?role=hospital"
-                  className="px-12 py-6 bg-white text-slate-900 border-4 border-slate-50 rounded-[24px] font-black text-xl hover:border-[#b8e2b0] transition-all transform hover:-translate-y-2 shadow-lg shadow-slate-900/5 flex items-center justify-center"
-                >
-                  Medical Partnership
-                </Link>
-              </div>
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-6xl md:text-8xl font-bold text-ice leading-[1.1] mb-8 tracking-tighter"
+            >
+              Heal <br />
+              <span className="text-teal italic">Ultra.</span>
+            </motion.h1>
 
-              <div className="mt-24 flex flex-wrap gap-14 justify-center lg:justify-start items-center grayscale opacity-60">
-                <div className="flex items-center gap-3"><Users className="w-6 h-6" /><span className="text-xs font-black uppercase tracking-widest">50k+ Trust</span></div>
-                <div className="flex items-center gap-3"><Shield className="w-6 h-6" /><span className="text-xs font-black uppercase tracking-widest">ISO 27001 Certified</span></div>
-                <div className="flex items-center gap-3"><Activity className="w-6 h-6" /><span className="text-xs font-black uppercase tracking-widest">24/7 Live Monitoring</span></div>
-              </div>
-            </div>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-slate text-xl font-medium leading-relaxed mb-12 max-w-lg"
+            >
+              Experience a clinical booking ecosystem engineered for zero-latency admissions and real-time inventory precision.
+            </motion.p>
 
-            <div className="flex-1 w-full max-w-3xl perspective-2000 hidden lg:block">
-              <motion.div
-                style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="relative group h-[600px]"
-              >
-                <div className="rounded-[64px] overflow-hidden shadow-[0_60px_120px_rgba(0,0,0,0.2)] border-[12px] border-white relative w-full h-full">
-                  <img
-                    src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
-                    alt="Futuristic Hospital"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/60 to-transparent" />
-                </div>
-
-                <motion.div
-                  style={{ translateZ: 100 }}
-                  className="absolute -bottom-12 -right-12 bg-white p-10 rounded-[40px] shadow-[0_40px_80px_rgba(0,0,0,0.1)] border border-slate-50 flex flex-col gap-4"
-                >
-                  <Activity className="w-12 h-12 text-[#b8e2b0] animate-pulse" />
-                  <div>
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Network Capacity</p>
-                    <p className="text-4xl font-black text-slate-900 tracking-tighter">98% Efficient</p>
-                  </div>
-                </motion.div>
-              </motion.div>
+            <div className="flex flex-wrap gap-6">
+              <Link to="/auth?role=patient" className="btn-teal flex items-center gap-2">
+                Quick Admission <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link to="/auth?role=hospital" className="px-8 py-4 rounded-xl border border-teal/20 text-teal font-bold hover:bg-teal/5 transition-all">
+                Partner clinics
+              </Link>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* Philosophy Section */}
-      <section className="py-32 bg-slate-900 overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#b8e2b0] rounded-full blur-[300px]" />
-        </div>
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-6xl font-black text-white mb-16 tracking-tighter italic leading-tight"
-          >
-            "Healthcare shouldn't be a search. <br /> It should be a <span className="text-[#b8e2b0]">Certainty.</span>"
-          </motion.h2>
+          <div className="relative">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="relative rounded-[40px] overflow-hidden border border-teal/10 shadow-3xl"
+            >
+              <img
+                src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200"
+                className="w-full h-full object-cover grayscale-[0.2]"
+                alt="Hospital"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy via-transparent to-transparent" />
+            </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
-            {[
-              { title: "Transparency", desc: "Real-time ledger access for every hospital bed in the network. No hidden costs or queues.", icon: Shield },
-              { title: "Standardization", desc: "Uniform care quality and pricing across all partner clinics. A truly national standard.", icon: IndianRupee },
-              { title: "Empathy-First", desc: "We focus on saving time so you can focus on healing. Zero friction from day one.", icon: Heart },
-            ].map((item, i) => (
-              <motion.div
-                whileInView={{ opacity: 1, scale: 1 }}
-                initial={{ opacity: 0, scale: 0.9 }}
-                key={i}
-                className="flex flex-col items-center"
-              >
-                <div className="w-24 h-24 bg-[#b8e2b0]/20 rounded-[32px] flex items-center justify-center text-[#b8e2b0] mb-12 border border-[#b8e2b0]/30">
-                  <item.icon className="w-10 h-10" />
-                </div>
-                <h3 className="text-3xl font-black text-white mb-6 uppercase tracking-tight">{item.title}</h3>
-                <p className="text-slate-400 font-bold text-lg leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
+            {/* Floating Stat Cards */}
+            <motion.div
+              className="animate-float absolute -top-10 -right-10 glass-card p-6 border-teal/20"
+              style={{ animationDelay: '0s' }}
+            >
+              <Users className="text-teal w-8 h-8 mb-4" />
+              <p className="text-slate text-[10px] font-bold uppercase tracking-widest">Live Capacity</p>
+              <p className="text-2xl font-bold text-ice">1,284 Beds</p>
+            </motion.div>
+
+            <motion.div
+              className="animate-float absolute -bottom-10 -left-10 glass-card p-6 border-teal/20"
+              style={{ animationDelay: '1s' }}
+            >
+              <Activity className="text-teal w-8 h-8 mb-4" />
+              <p className="text-slate text-[10px] font-bold uppercase tracking-widest">Network Speed</p>
+              <p className="text-2xl font-bold text-ice">98% Load</p>
+              {/* SVG ECG Line */}
+              <svg className="w-full h-8 mt-4" viewBox="0 0 100 20">
+                <path
+                  d="M0 10 L20 10 L25 5 L35 15 L40 10 L60 10 L65 0 L75 20 L80 10 L100 10"
+                  stroke="#00C9A7"
+                  fill="none"
+                  strokeWidth="2"
+                  className="animate-[dash_2s_linear_infinite]"
+                  strokeDasharray="100"
+                  strokeDashoffset="100"
+                />
+              </svg>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* How it Works Section */}
-      <section className="py-32 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="flex flex-col lg:flex-row items-end justify-between mb-40 gap-10">
-            <div className="max-w-3xl">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] mb-6">The Protocol</p>
-              <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-tight italic">
-                Admission in <br /> <span className="text-[#b8e2b0]">3 Pulse Beats.</span>
-              </h2>
-            </div>
-            <p className="max-w-md text-slate-400 font-bold text-xl leading-relaxed mb-4">
-              We've engineered a clinical booking experience that rivals the simplicity of modern digital banking.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-            {[
-              { step: "01", title: "Live Discovery", desc: "Browse real-time ICU and General ward maps across 500+ clinics.", img: "https://images.unsplash.com/photo-1576091160550-217359f4ecf8?auto=format&fit=crop&q=80&w=800" },
-              { step: "02", title: "Instant Select", desc: "Lock your preferred bed slot with a single click. No wait times.", img: "https://images.unsplash.com/photo-1581056771107-24ca5f033842?auto=format&fit=crop&q=80&w=800" },
-              { step: "03", title: "Swift Entry", desc: "Digital verification at the hospital gate. Entry within 2 minutes.", img: "https://images.unsplash.com/photo-1586773860418-d372a6765b45?auto=format&fit=crop&q=80&w=800" },
-            ].map((item, i) => (
-              <motion.div
-                whileHover={{ y: -12 }}
-                key={i}
-                className="group relative overflow-hidden rounded-[40px] shadow-2xl h-[500px]"
-              >
-                <img src={item.img} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt={item.title} />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent p-12 flex flex-col justify-end">
-                  <p className="text-8xl font-black text-[#b8e2b0]/30 mb-6 drop-shadow-2xl">{item.step}</p>
-                  <h3 className="text-4xl font-black text-white mb-4 italic uppercase">{item.title}</h3>
-                  <p className="text-slate-200 font-bold leading-relaxed">{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Technology Section */}
-      <section className="py-32 bg-emerald-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
-            <div className="relative">
-              <div className="absolute -top-20 -left-20 w-40 h-40 bg-[#b8e2b0]/20 rounded-full blur-3xl" />
-              <img src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&q=80&w=1200" className="rounded-[80px] shadow-2xl w-full translate-x-4 translate-y-4" alt="Tech" />
-              <div className="absolute bottom-12 -right-12 bg-white p-12 rounded-[48px] shadow-2xl max-w-[280px]">
-                <Activity className="text-[#b8e2b0] w-12 h-12 mb-6" />
-                <p className="text-slate-400 font-black uppercase text-[10px] tracking-widest mb-1">Latency</p>
-                <p className="text-4xl font-black text-slate-900 italic">0.02ms</p>
+      {/* Feature Section */}
+      <section className="py-32 px-6">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+          {[
+            { title: "Zero-Latency Admissions", desc: "Digital verification at the hospital gate. Instant entry via cryptographic tokens.", icon: Shield },
+            { title: "Real-Time Bed Tracking", desc: "Visualize actual floor plans and bed locations via our spatial mapping engine.", icon: MapPin },
+            { title: "Medical Partnership Network", desc: "Uniform care quality and standardized pricing across all partner clinics.", icon: Building2 },
+          ].map((item, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -10 }}
+              className="glass-card p-10 group"
+            >
+              <div className="w-14 h-14 bg-teal/10 rounded-2xl flex items-center justify-center text-teal mb-8 group-hover:bg-teal group-hover:text-navy transition-all duration-300">
+                <item.icon className="w-7 h-7" />
               </div>
-            </div>
-            <div>
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] mb-8">The Architecture</p>
-              <h2 className="text-5xl md:text-7xl font-black text-slate-900 mb-10 tracking-tighter italic leading-none">
-                Clinical Grade <br /> <span className="text-emerald-700 underline decoration-[#b8e2b0]">Intelligence.</span>
-              </h2>
-              <div className="space-y-12">
-                {[
-                  { title: "Immutable Ledger", desc: "Every bed booking is carved into our cryptographic ledger, ensuring zero double-bookings or priority skips." },
-                  { title: "3D Asset Mapping", desc: "Visualize actual floor plans and bed locations via our spatial mapping engine before you arrive." },
-                  { title: "Live Oxygen Sync", desc: "Network-wide tracking of critical resources like ventilators and oxygen supply nodes." },
-                ].map((feat, i) => (
-                  <div key={i} className="flex gap-8 group">
-                    <div className="w-1 h-20 bg-emerald-100 group-hover:bg-[#b8e2b0] transition-colors" />
-                    <div>
-                      <h4 className="text-2xl font-black text-slate-900 mb-4">{feat.title}</h4>
-                      <p className="text-slate-500 font-bold leading-relaxed">{feat.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+              <h3 className="text-2xl font-bold text-ice mb-4">{item.title}</h3>
+              <p className="text-slate leading-relaxed">{item.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </section>
 
-      {/* Stats Matrix */}
-      <section className="py-40 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-12">
-            {[
-              { val: "940+", label: "Hospitals Unified", icon: Building2 },
-              { val: "2.5M", label: "Lives Touched", icon: Users },
-              { val: "100%", label: "Transparency Score", icon: Shield },
-              { val: "avg. 3s", label: "Booking Latency", icon: Activity },
-            ].map((stat, i) => (
-              <div key={i} className="p-10 border-4 border-slate-50 rounded-[48px] hover:border-[#b8e2b0] transition-colors">
-                <stat.icon className="w-8 h-8 text-[#b8e2b0] mb-6" />
-                <h5 className="text-4xl font-black text-slate-900 mb-2 italic tracking-tighter">{stat.val}</h5>
-                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
-              </div>
-            ))}
-          </div>
+      {/* Stats Row */}
+      <section className="py-20 border-y border-ice/5">
+        <div className="max-w-7xl mx-auto px-6 flex flex-wrap justify-between gap-10">
+          {[
+            { val: "98%", label: "Capacity Efficient" },
+            { val: "3.2s", label: "Avg Admission" },
+            { val: "500+", label: "Integrated Hospitals" },
+          ].map((stat, i) => (
+            <div key={i} className="text-center md:text-left">
+              <p className="text-4xl font-bold text-ice mb-2">{stat.val}</p>
+              <p className="text-slate uppercase tracking-widest text-[10px] font-bold">{stat.label}</p>
+            </div>
+          ))}
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-32 bg-emerald-950 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-          <div className="absolute -bottom-1/2 -right-1/2 w-[800px] h-[800px] bg-[#b8e2b0] rounded-full blur-[300px]" />
-        </div>
-        <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-5xl md:text-7xl font-black text-white mb-12 tracking-tighter italic leading-[0.85]">
-            Ready to heal <br /> <span className="text-[#b8e2b0]">faster?</span>
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-8 justify-center">
-            <Link to="/auth?role=patient" className="px-12 py-6 bg-[#b8e2b0] text-emerald-900 rounded-[24px] font-black text-xl shadow-2xl hover:bg-white transition-all transform hover:-translate-y-2">
-              Book a Bed Now
-            </Link>
-            <Link to="/auth?role=admin" className="px-12 py-6 bg-emerald-900 text-[#b8e2b0] border-4 border-[#b8e2b0]/30 rounded-[24px] font-black text-xl hover:bg-[#b8e2b0]/10 transition-all transform hover:-translate-y-2">
-              Admin Access
-            </Link>
+      {/* CTA Banner */}
+      <section className="py-20 px-6">
+        <motion.div
+          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.98 }}
+          className="max-w-7xl mx-auto rounded-[40px] p-16 bg-gradient-to-br from-teal/20 to-teal/5 border border-teal/20 text-center relative overflow-hidden"
+        >
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-teal/10 opacity-50" />
+          <h2 className="text-4xl md:text-6xl font-bold text-ice mb-8 tracking-tighter italic">Ready to heal <span className="text-teal">faster?</span></h2>
+          <div className="flex flex-wrap justify-center gap-6 relative z-10">
+            <Link to="/auth?role=patient" className="btn-teal px-12 py-6 text-xl">Book a Bed Now</Link>
+            <Link to="/auth?role=admin" className="px-12 py-6 rounded-xl border border-teal/20 text-teal font-bold hover:bg-teal/5 transition-all">Admin Access</Link>
           </div>
-        </div>
+        </motion.div>
       </section>
+
+      <footer className="py-20 border-t border-ice/5 text-center">
+        <Logo />
+        <p className="text-slate/40 text-sm mt-8">© 2026 MedStay Network. All rights reserved.</p>
+      </footer>
     </div>
   );
 };
@@ -1244,7 +1183,8 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen font-sans bg-white">
+      <div className="min-h-screen font-dmsans bg-[#0A1628] text-[#F4F8FF] overflow-x-hidden scroll-smooth">
+        <CustomCursor />
         <Navbar user={user} setUser={setUser} />
         <Routes>
           <Route path="/" element={<Landing />} />
@@ -1253,13 +1193,15 @@ function App() {
             path="/patient"
             element={
               user?.role === "patient" ? (
-                <PatientPortal
-                  hospitals={hospitals}
-                  setHospitals={setHospitals}
-                  bookings={bookings}
-                  setBookings={setBookings}
-                  user={user}
-                />
+                <div className="bg-slate-50 text-slate-900 min-h-screen">
+                  <PatientPortal
+                    hospitals={hospitals}
+                    setHospitals={setHospitals}
+                    bookings={bookings}
+                    setBookings={setBookings}
+                    user={user}
+                  />
+                </div>
               ) : (
                 <Navigate to="/auth?role=patient" />
               )
@@ -1269,11 +1211,13 @@ function App() {
             path="/hospital"
             element={
               user?.role === "hospital" ? (
-                <HospitalPortal
-                  bookings={bookings}
-                  hospitals={hospitals}
-                  user={user}
-                />
+                <div className="bg-slate-50 text-slate-900 min-h-screen">
+                  <HospitalPortal
+                    bookings={bookings}
+                    hospitals={hospitals}
+                    user={user}
+                  />
+                </div>
               ) : (
                 <Navigate to="/auth?role=hospital" />
               )
@@ -1283,47 +1227,19 @@ function App() {
             path="/admin"
             element={
               user?.role === "admin" ? (
-                <AdminPortal
-                  bookings={bookings}
-                  hospitals={hospitals}
-                  setHospitals={setHospitals}
-                />
+                <div className="bg-slate-50 text-slate-900 min-h-screen">
+                  <AdminPortal
+                    bookings={bookings}
+                    hospitals={hospitals}
+                    setHospitals={setHospitals}
+                  />
+                </div>
               ) : (
                 <Navigate to="/auth?role=admin" />
               )
             }
           />
         </Routes>
-
-        <footer className="bg-slate-50 border-t border-slate-100 py-24 mt-40">
-          <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-16">
-            <div className="col-span-1">
-              <Logo />
-              <p className="text-slate-400 font-bold leading-relaxed mb-8 mt-6">
-                India's premium hospital inventory network. 24/7 care, 100% transparency.
-              </p>
-            </div>
-            <div>
-              <h4 className="font-black text-slate-900 text-xs uppercase tracking-widest mb-8">
-                Quick Links
-              </h4>
-              <ul className="space-y-4 text-slate-500 font-bold text-sm">
-                <li className="cursor-pointer hover:text-emerald-900">Help Center</li>
-                <li className="cursor-pointer hover:text-emerald-900">Partner Clinics</li>
-                <li className="cursor-pointer hover:text-emerald-900">Safety Protocols</li>
-              </ul>
-            </div>
-            <div className="bg-slate-900 p-10 rounded-[40px] text-white">
-              <h4 className="text-xl font-black mb-4 italic">Need Help?</h4>
-              <p className="text-slate-400 font-bold mb-8 text-sm">
-                Call our manual support line for help with bed allocation.
-              </p>
-              <button className="w-full bg-[#b8e2b0] py-4 rounded-2xl font-black text-emerald-900 uppercase tracking-widest text-[10px] hover:bg-white transition-all cursor-pointer">
-                Call Now
-              </button>
-            </div>
-          </div>
-        </footer>
       </div>
     </Router>
   );

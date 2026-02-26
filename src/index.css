@@ -1,53 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Syne:wght@700;800&display=swap');
+
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #b8e2b0;
-  --color-primary-dark: #8cb686;
-  --color-primary-light: #e8f5e9;
-  --color-accent: #f0fdf4;
-  --color-background: #ffffff;
-  --color-surface: #f9fbf9;
-  --color-text-main: #1a2e1a;
-  --color-text-muted: #6b7280;
+  --color-navy: #0A1628;
+  --color-teal: #00C9A7;
+  --color-ice: #F4F8FF;
+  --color-slate: #6B84A3;
+  --font-syne: "Syne", sans-serif;
+  --font-dmsans: "DM Sans", sans-serif;
 }
 
 @layer base {
   body {
-    @apply bg-background text-text-main font-sans antialiased selection:bg-primary/30;
+    @apply bg-navy text-ice font-dmsans antialiased selection:bg-teal/30;
+    cursor: none;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-syne;
   }
 }
 
 @layer components {
-  .glass {
-    @apply bg-white/70 backdrop-blur-2xl border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  .glass-card {
+    background: rgba(15, 32, 64, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 201, 167, 0.15);
+    @apply rounded-[32px] shadow-2xl transition-all duration-500 hover:border-teal/50;
   }
 
-  .glass-dark {
-    @apply bg-slate-900/80 backdrop-blur-2xl border border-slate-800/50 shadow-2xl;
+  .btn-teal {
+    @apply bg-teal text-navy px-8 py-4 rounded-xl font-bold transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_30px_rgba(0, 201, 167, 0.4)] active:scale-95;
   }
 
-  .card-premium {
-    @apply bg-white rounded-[48px] border border-emerald-100/50 shadow-2xl shadow-emerald-900/[0.03] transition-all duration-700 hover:shadow-emerald-900/[0.08] hover:-translate-y-2 hover:border-primary/50;
+  .nav-blur {
+    background: rgba(10, 22, 40, 0.8);
+    backdrop-filter: blur(12px);
   }
 
-  .btn-primary {
-    @apply bg-primary text-emerald-900 px-10 py-5 rounded-[24px] font-black text-lg shadow-xl shadow-primary/20 hover:bg-emerald-900 hover:text-white transition-all transform active:scale-95 cursor-pointer flex items-center justify-center gap-3;
+  .dot-grid {
+    background-image: radial-gradient(rgba(0, 201, 167, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
   }
 
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
+  .custom-cursor {
+    @apply fixed top-0 left-0 w-8 h-8 pointer-events-none z-[10000] rounded-full border border-teal/50 -translate-x-1/2 -translate-y-1/2 transition-all duration-75;
   }
 
-  .no-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .custom-cursor-dot {
+    @apply absolute top-1/2 left-1/2 w-1.5 h-1.5 bg-teal rounded-full -translate-x-1/2 -translate-y-1/2;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
   }
 
-  .pista-glow {
-    box-shadow: 0 0 60px rgba(184, 226, 176, 0.25);
+  50% {
+    transform: translateY(-20px);
   }
 
-  .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-800 to-emerald-900;
+  100% {
+    transform: translateY(0px);
   }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
