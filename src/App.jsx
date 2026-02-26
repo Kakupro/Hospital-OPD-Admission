@@ -273,7 +273,7 @@ const Landing = () => {
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-6xl md:text-8xl font-bold text-ice leading-[1.1] mb-8 tracking-tighter"
+              className="text-5xl md:text-7xl font-bold text-ice leading-[1.1] mb-8 tracking-tighter"
             >
               Heal <br />
               <span className="text-teal italic">Ultra.</span>
@@ -393,7 +393,7 @@ const Landing = () => {
           className="max-w-7xl mx-auto rounded-[40px] p-16 bg-gradient-to-br from-teal/20 to-teal/5 border border-teal/20 text-center relative overflow-hidden"
         >
           <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-from)_0%,_transparent_70%)] from-teal/10 opacity-50" />
-          <h2 className="text-4xl md:text-6xl font-bold text-ice mb-8 tracking-tighter italic">Ready to heal <span className="text-teal">faster?</span></h2>
+          <h2 className="text-3xl md:text-5xl font-bold text-ice mb-8 tracking-tighter italic">Ready to heal <span className="text-teal">faster?</span></h2>
           <div className="flex flex-wrap justify-center gap-6 relative z-10">
             <Link to="/auth?role=patient" className="btn-teal px-12 py-6 text-xl">Book a Bed Now</Link>
             <Link to="/auth?role=admin" className="px-12 py-6 rounded-xl border border-teal/20 text-teal font-bold hover:bg-teal/5 transition-all">Admin Access</Link>

@@ -12,8 +12,13 @@
 }
 
 @layer base {
+
+  html,
   body {
-    @apply bg-navy text-ice font-dmsans antialiased selection:bg-teal/30;
+    background-color: #0A1628;
+    color: #F4F8FF;
+    scroll-behavior: smooth;
+    @apply antialiased selection:bg-teal/30;
     cursor: none;
   }
 
@@ -23,6 +28,25 @@
   h4 {
     @apply font-syne;
   }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0A1628;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 201, 167, 0.2);
+  border-radius: 10px;
+  border: 2px solid #0A1628;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 201, 167, 0.4);
 }
 
 @layer components {
