@@ -252,26 +252,26 @@ const Landing = () => {
                 The Future of Healthcare Logistics
               </motion.div>
 
-              <h1 className="text-7xl md:text-9xl xl:text-[11rem] font-black text-slate-900 leading-[0.85] mb-14 tracking-tighter">
+              <h1 className="text-6xl md:text-8xl xl:text-[9rem] font-black text-slate-900 leading-[0.85] mb-10 tracking-tighter">
                 Heal <br />
                 <span className="text-[#b8e2b0] italic drop-shadow-2xl">Ultra.</span>
               </h1>
 
-              <p className="max-w-2xl text-slate-500 font-bold text-2xl mb-16 leading-relaxed tracking-tight mx-auto lg:mx-0">
+              <p className="max-w-xl text-slate-500 font-bold text-xl mb-12 leading-relaxed tracking-tight mx-auto lg:mx-0">
                 The world's most advanced hospital inventory network.
                 Experience <span className="text-slate-900">Zero-Latency admissions</span> and real-time 3D bed tracking.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-8 justify-center lg:justify-start">
+              <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
                 <Link
                   to="/auth?role=patient"
-                  className="px-16 py-8 bg-[#b8e2b0] text-emerald-900 rounded-[32px] font-black text-2xl shadow-[0_30px_60px_-15px_rgba(184,226,176,0.5)] hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-3 flex items-center justify-center gap-4 group"
+                  className="px-12 py-6 bg-[#b8e2b0] text-emerald-900 rounded-[24px] font-black text-xl shadow-[0_20px_40px_-10px_rgba(184,226,176,0.4)] hover:bg-emerald-900 hover:text-white transition-all transform hover:-translate-y-2 flex items-center justify-center gap-3 group"
                 >
-                  Quick Admission <ArrowRight className="w-8 h-8 group-hover:translate-x-3 transition-transform" />
+                  Quick Admission <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
                 </Link>
                 <Link
                   to="/auth?role=hospital"
-                  className="px-16 py-8 bg-white text-slate-900 border-4 border-slate-50 rounded-[32px] font-black text-2xl hover:border-[#b8e2b0] transition-all transform hover:-translate-y-3 shadow-xl shadow-slate-900/5 flex items-center justify-center"
+                  className="px-12 py-6 bg-white text-slate-900 border-4 border-slate-50 rounded-[24px] font-black text-xl hover:border-[#b8e2b0] transition-all transform hover:-translate-y-2 shadow-lg shadow-slate-900/5 flex items-center justify-center"
                 >
                   Medical Partnership
                 </Link>
@@ -287,9 +287,9 @@ const Landing = () => {
             <div className="flex-1 w-full max-w-3xl perspective-2000 hidden lg:block">
               <motion.div
                 style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-                className="relative group h-[700px]"
+                className="relative group h-[600px]"
               >
-                <div className="rounded-[80px] overflow-hidden shadow-[0_80px_160px_rgba(0,0,0,0.2)] border-[16px] border-white relative w-full h-full">
+                <div className="rounded-[64px] overflow-hidden shadow-[0_60px_120px_rgba(0,0,0,0.2)] border-[12px] border-white relative w-full h-full">
                   <img
                     src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
@@ -299,13 +299,13 @@ const Landing = () => {
                 </div>
 
                 <motion.div
-                  style={{ translateZ: 150 }}
-                  className="absolute -bottom-16 -right-16 bg-white p-12 rounded-[48px] shadow-[0_50px_100px_rgba(0,0,0,0.1)] border border-slate-50 flex flex-col gap-6"
+                  style={{ translateZ: 100 }}
+                  className="absolute -bottom-12 -right-12 bg-white p-10 rounded-[40px] shadow-[0_40px_80px_rgba(0,0,0,0.1)] border border-slate-50 flex flex-col gap-4"
                 >
-                  <Activity className="w-16 h-16 text-[#b8e2b0] animate-pulse" />
+                  <Activity className="w-12 h-12 text-[#b8e2b0] animate-pulse" />
                   <div>
-                    <p className="text-[12px] font-black text-slate-400 uppercase tracking-widest mb-1">Network Capacity</p>
-                    <p className="text-5xl font-black text-slate-900 tracking-tighter">98% Efficient</p>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Network Capacity</p>
+                    <p className="text-4xl font-black text-slate-900 tracking-tighter">98% Efficient</p>
                   </div>
                 </motion.div>
               </motion.div>
@@ -315,7 +315,7 @@ const Landing = () => {
       </section>
 
       {/* Philosophy Section */}
-      <section className="py-60 bg-slate-900 overflow-hidden relative">
+      <section className="py-32 bg-slate-900 overflow-hidden relative">
         <div className="absolute top-0 right-0 w-full h-full opacity-10 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#b8e2b0] rounded-full blur-[300px]" />
         </div>
@@ -323,7 +323,7 @@ const Landing = () => {
           <motion.h2
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-black text-white mb-20 tracking-tighter italic leading-tight"
+            className="text-4xl md:text-6xl font-black text-white mb-16 tracking-tighter italic leading-tight"
           >
             "Healthcare shouldn't be a search. <br /> It should be a <span className="text-[#b8e2b0]">Certainty.</span>"
           </motion.h2>
@@ -352,12 +352,12 @@ const Landing = () => {
       </section>
 
       {/* How it Works Section */}
-      <section className="py-60 bg-white">
+      <section className="py-32 bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex flex-col lg:flex-row items-end justify-between mb-40 gap-10">
             <div className="max-w-3xl">
-              <p className="text-[12px] font-black text-slate-400 uppercase tracking-[0.5em] mb-8">The Protocol</p>
-              <h2 className="text-7xl md:text-8xl font-black text-slate-900 tracking-tighter leading-tight italic">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] mb-6">The Protocol</p>
+              <h2 className="text-5xl md:text-7xl font-black text-slate-900 tracking-tighter leading-tight italic">
                 Admission in <br /> <span className="text-[#b8e2b0]">3 Pulse Beats.</span>
               </h2>
             </div>
@@ -373,9 +373,9 @@ const Landing = () => {
               { step: "03", title: "Swift Entry", desc: "Digital verification at the hospital gate. Entry within 2 minutes.", img: "https://images.unsplash.com/photo-1586773860418-d372a6765b45?auto=format&fit=crop&q=80&w=800" },
             ].map((item, i) => (
               <motion.div
-                whileHover={{ y: -20 }}
+                whileHover={{ y: -12 }}
                 key={i}
-                className="group relative overflow-hidden rounded-[56px] shadow-2xl h-[600px]"
+                className="group relative overflow-hidden rounded-[40px] shadow-2xl h-[500px]"
               >
                 <img src={item.img} className="absolute inset-0 w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700" alt={item.title} />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent p-12 flex flex-col justify-end">
@@ -390,7 +390,7 @@ const Landing = () => {
       </section>
 
       {/* Technology Section */}
-      <section className="py-60 bg-emerald-50">
+      <section className="py-32 bg-emerald-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-center">
             <div className="relative">
@@ -403,8 +403,8 @@ const Landing = () => {
               </div>
             </div>
             <div>
-              <p className="text-[12px] font-black text-slate-400 uppercase tracking-[0.5em] mb-10">The Architecture</p>
-              <h2 className="text-6xl md:text-8xl font-black text-slate-900 mb-14 tracking-tighter italic leading-none">
+              <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.5em] mb-8">The Architecture</p>
+              <h2 className="text-5xl md:text-7xl font-black text-slate-900 mb-10 tracking-tighter italic leading-none">
                 Clinical Grade <br /> <span className="text-emerald-700 underline decoration-[#b8e2b0]">Intelligence.</span>
               </h2>
               <div className="space-y-12">
@@ -437,9 +437,9 @@ const Landing = () => {
               { val: "100%", label: "Transparency Score", icon: Shield },
               { val: "avg. 3s", label: "Booking Latency", icon: Activity },
             ].map((stat, i) => (
-              <div key={i} className="p-12 border-4 border-slate-50 rounded-[56px] hover:border-[#b8e2b0] transition-colors">
-                <stat.icon className="w-10 h-10 text-[#b8e2b0] mb-8" />
-                <h5 className="text-5xl font-black text-slate-900 mb-2 italic tracking-tighter">{stat.val}</h5>
+              <div key={i} className="p-10 border-4 border-slate-50 rounded-[48px] hover:border-[#b8e2b0] transition-colors">
+                <stat.icon className="w-8 h-8 text-[#b8e2b0] mb-6" />
+                <h5 className="text-4xl font-black text-slate-900 mb-2 italic tracking-tighter">{stat.val}</h5>
                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</p>
               </div>
             ))}
@@ -448,19 +448,19 @@ const Landing = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-60 bg-emerald-950 relative overflow-hidden">
+      <section className="py-32 bg-emerald-950 relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-          <div className="absolute -bottom-1/2 -right-1/2 w-[1000px] h-[1000px] bg-[#b8e2b0] rounded-full blur-[300px]" />
+          <div className="absolute -bottom-1/2 -right-1/2 w-[800px] h-[800px] bg-[#b8e2b0] rounded-full blur-[300px]" />
         </div>
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-          <h2 className="text-7xl md:text-9xl font-black text-white mb-20 tracking-tighter italic leading-[0.85]">
+          <h2 className="text-5xl md:text-7xl font-black text-white mb-12 tracking-tighter italic leading-[0.85]">
             Ready to heal <br /> <span className="text-[#b8e2b0]">faster?</span>
           </h2>
-          <div className="flex flex-col sm:flex-row gap-10 justify-center">
-            <Link to="/auth?role=patient" className="px-20 py-10 bg-[#b8e2b0] text-emerald-900 rounded-[40px] font-black text-2xl shadow-3xl hover:bg-white transition-all transform hover:-translate-y-4">
+          <div className="flex flex-col sm:flex-row gap-8 justify-center">
+            <Link to="/auth?role=patient" className="px-12 py-6 bg-[#b8e2b0] text-emerald-900 rounded-[24px] font-black text-xl shadow-2xl hover:bg-white transition-all transform hover:-translate-y-2">
               Book a Bed Now
             </Link>
-            <Link to="/auth?role=admin" className="px-20 py-10 bg-emerald-900 text-[#b8e2b0] border-4 border-[#b8e2b0]/30 rounded-[40px] font-black text-2xl hover:bg-[#b8e2b0]/10 transition-all transform hover:-translate-y-4">
+            <Link to="/auth?role=admin" className="px-12 py-6 bg-emerald-900 text-[#b8e2b0] border-4 border-[#b8e2b0]/30 rounded-[24px] font-black text-xl hover:bg-[#b8e2b0]/10 transition-all transform hover:-translate-y-2">
               Admin Access
             </Link>
           </div>
