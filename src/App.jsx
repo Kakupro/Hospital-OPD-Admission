@@ -109,32 +109,7 @@ const INITIAL_HOSPITALS = [
 
 // --- Shared Elements ---
 
-const CustomCursor = () => {
-  const cursorX = useMotionValue(-100);
-  const cursorY = useMotionValue(-100);
 
-  useEffect(() => {
-    const moveCursor = (e) => {
-      cursorX.set(e.clientX);
-      cursorY.set(e.clientY);
-    };
-    window.addEventListener("mousemove", moveCursor);
-    return () => window.removeEventListener("mousemove", moveCursor);
-  }, []);
-
-  return (
-    <>
-      <motion.div
-        className="custom-cursor hidden lg:block"
-        style={{ x: cursorX, y: cursorY }}
-      />
-      <motion.div
-        className="custom-cursor-dot hidden lg:block"
-        style={{ x: cursorX, y: cursorY }}
-      />
-    </>
-  );
-};
 
 const Logo = () => (
   <Link to="/" className="flex items-center gap-3 group">
@@ -530,6 +505,10 @@ const AuthPage = ({ setUser }) => {
 
   const [role, setRole] = useState(initialRole);
   const [isLogin, setIsLogin] = useState(mode === "login");
+
+  useEffect(() => {
+    setIsLogin(mode === "login");
+  }, [mode]);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -1297,7 +1276,6 @@ function App() {
   return (
     <Router>
       <div className="min-h-screen font-dmsans bg-[#0A1628] text-[#F4F8FF] overflow-x-hidden scroll-smooth">
-        <CustomCursor />
         <Navbar user={user} setUser={setUser} />
         <Routes>
           <Route path="/" element={<Landing />} />
